@@ -15,6 +15,7 @@ Controller.prototype.dataUpdated = function(data){
             width:.25*this.clusterVis.width - 10 ,
             height:.85 * this.clusterVis.height - 6
         });
+    this.cutTree();
 };
 
 Controller.prototype.intercepts = function(cutline, dline){
@@ -30,11 +31,8 @@ Controller.prototype.dfs = function(root, merges){
     var toExplore = [root];
     var children = [];
     var current;
-    console.log("----------------");
     while (toExplore.length > 0){
         current = toExplore.pop();
-        //console.log("current: "+(current));
-        //if (current >= 0) console.log((merges[current][0]) + ", " + (merges[current][1]));
         if (current < 0){
             //is a leaf
             children.push(-current - 1)
@@ -87,11 +85,10 @@ Controller.prototype.cutTree = function(){
     });
 
     var clusters = [];
-    for (var i = 0; i < roots.length; i++){
+    for (var i = 0; i < roots.length; i++) {
         clusters[i] = this.dfs(roots[i], merges);
     }
 
-   // console.log(clusters); //paola, aqui estao os clusters; Nao esta correto ainda, mas ja eh uma ideia. de como eles vao retornar. Hoje tento corrigir isso.
     this.clusterViews(clusters);
 };
 
