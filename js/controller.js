@@ -96,12 +96,13 @@ Controller.prototype.cutTree = function(){
 
 Controller.prototype.entropyViews = function(clusters){
     for (var clustId = 0; clustId < clusters.length; clustId++){
+        console.log("cluster" + clustId);
         for (var dimId = 0; dimId < this.data.data.length; dimId++){
-            this.entropyCalculator.calcEntropy(dimId, clusters[clustId])
+            var entropy = this.entropyCalculator.calcEntropy(dimId, clusters[clustId]);
+            var decreaseEntropyPercentage = 1 - entropy / this.data.data[dimId].entropy;
+            console.log(decreaseEntropyPercentage)
         }
     }
-
-
 };
 
 Controller.prototype.clusterViews = function(children) {

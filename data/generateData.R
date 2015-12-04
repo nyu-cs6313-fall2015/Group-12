@@ -26,12 +26,17 @@ clusterObj <- function(originalData, distanceFunction = daisy, removeFromCluster
         #compute bins here
         histogram = hist(originalData[[namesData[i]]])
         data[[i]]$breaks = histogram$breaks
+        prob = histogram$counts/sum(histogram$counts)
+        data[[i]]$entropy = -sum(prob * log2(prob), na.rm = T)
       }else{
         data[[i]]$type = "categorical"
         #list labels
         data[[i]]$levels = levels(originalData[[namesData[i]]])
       }
       data[[i]]$values = originalData[[namesData[i]]]
+      count = table(originalData[[namesData[i]]])
+      prob = count/sum(count)
+      data[[i]]$entropy = -sum(prob * log2(prob), na.rm = T)
     }
 
     myObj = list()
@@ -42,11 +47,11 @@ clusterObj <- function(originalData, distanceFunction = daisy, removeFromCluster
 
 
 #clustering medical dataset
-data = read.csv("~/Downloads/pvecs/pvecs_small.csv")
-o = clusterObj(data)
-sink('pvecs_small_cluster.json')
-cat(toJSON(o))
-sink()
+#data = read.csv("~/Downloads/pvecs/pvecs_small.csv")
+#o = clusterObj(data)
+#sink('pvecs_small_cluster.json')
+#cat(toJSON(o))
+#sink()
 
 #clustering iris dataset
 o = clusterObj(iris, removeFromCluster = c(5))
