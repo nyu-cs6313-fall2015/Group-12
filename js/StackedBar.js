@@ -1,4 +1,4 @@
-function StackedBar(d, svg, limits){
+function StackedBar(d, svg, limits, colorScale){
 
     var sb = this;
 
@@ -7,9 +7,6 @@ function StackedBar(d, svg, limits){
     sb.limits = limits;
 
     sb.width = limits.width; // TODO: this width needs to change!!
-
-    sb.color =  d3.scale.ordinal()
-        .range(colorbrewer.Set2[8]);
 
     sb.y = d3.scale.linear()
         .domain([0, sb.data.values.length])
@@ -23,7 +20,11 @@ function StackedBar(d, svg, limits){
 
     sb.data_bins.sort(function(a, b) { return b.values - a.values; });
 
-    sb.color.domain(sb.data_bins.map(function(d) { return d.dimension; }));
+    //sb.color =  d3.scale.ordinal()
+    //    .range(colorbrewer.Set2[8]);
+    //    .domain(sb.data_bins.map(function(d) { return d.key; }));
+
+    sb.color = colorScale;
 
     var y0 = 0;
     sb.data_bins.forEach(function(d){

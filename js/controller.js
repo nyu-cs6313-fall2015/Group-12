@@ -4,11 +4,13 @@ function Controller (){
     this.description = "Class Controller";
     this.clusterVis = new ClusterVis();
     this.dendrogram = undefined;
+    this.dataViews = undefined;
     this.entropyCalculator = undefined;
 }
 
 Controller.prototype.dataUpdated = function(data){
     this.data = data;
+
     this.dendrogram = new Dendrogram(this, data, this.clusterVis.svg,
         {   
             x: 10,
@@ -16,7 +18,17 @@ Controller.prototype.dataUpdated = function(data){
             width:.25*this.clusterVis.width - 10 ,
             height:.85 * this.clusterVis.height - 6
         });
+
     this.entropyCalculator = new EntropyCalculator(this.data);
+
+    this.dataViews = new DataViews(this, data.data, this.clusterVis.svg,
+        {
+            x: .25*this.clusterVis.width + 10,
+            y: .15 * this.clusterVis.height,
+            width:.75*this.clusterVis.width - 10 ,
+            height:.85 * this.clusterVis.height - 6
+        }, this.dendrogram.scales.y);
+
     this.cutTree();
 };
 
@@ -106,47 +118,5 @@ Controller.prototype.entropyViews = function(clusters){
 };
 
 Controller.prototype.clusterViews = function(children) {
-    var self = this;
-    var numClusters = children.length;
-    var data = self.data.data;
-
-
-    if(self.dataSummaryViews)
-        d3.selectAll(".data_summary_group").remove();
-
-    self.dataSummaryViews = [];
-
-    children.forEach(createDataSummary);
-
-    function createDataSummary(child, i){
-        var childData = [];
-
-        data.forEach( createChildData );
-        var limits = {
-            x: 5+.25*  self.clusterVis.width,
-            y:.15* self.clusterVis.height + i*(.85 * self.clusterVis.height)/numClusters ,
-            width: .65* self.clusterVis.width - 5,
-            height: (.85 *  self.clusterVis.height)/numClusters - 15
-        };
-
-        var view = new DataSummary(childData, self.clusterVis.svg, limits);
-
-        self.dataSummaryViews.push(view);
-
-        function createChildData (d,i) {
-            childData[i] = d.constructor(); // give temp the original obj's constructor
-            for (var key in d) {
-                if (key !== "values") {
-                    childData[i][key] = d[key];
-                }
-                else {
-                    childData[i].values = [];
-                    child.forEach(function (ci) {
-                        childData[i].values.push(d["values"][ci]);
-                    });
-                }
-            }
-        }
-    }
-
+    this.dataViews.createViews(children);
 }

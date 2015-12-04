@@ -1,4 +1,4 @@
-function Box(d, svg, limits) {
+function Box(d, svg, limits, scaleY) {
 
     var bp = this;
 
@@ -8,8 +8,11 @@ function Box(d, svg, limits) {
 
     bp.width = limits.width;
 
-    bp.y = d3.scale.linear()
-        .domain(d3.extent(bp.data))
+    //bp.y = d3.scale.linear()
+    //    .domain(d3.extent(bp.data))
+    //    .range([limits.y + limits.height, limits.y]);
+
+    bp.y = scaleY
         .range([limits.y + limits.height, limits.y]);
 
     var whiskers = boxWhiskers;
