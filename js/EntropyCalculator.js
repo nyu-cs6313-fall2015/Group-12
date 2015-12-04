@@ -4,7 +4,7 @@ function EntropyCalculator(data){
 }
 
 EntropyCalculator.prototype.calcEntropy = function(dimensionId, clusterIds){
-    var myData = this.data[dimensionId];
+    var myData = this.data.data[dimensionId];
     if (myData.type == "categorical"){
         var hist = {};
         for (var i = 0; i < myData.levels.length; i++){
@@ -14,34 +14,34 @@ EntropyCalculator.prototype.calcEntropy = function(dimensionId, clusterIds){
             hist[myData.values[clusterIds[i]]]++;
         }
     }else{
-
+        var bin;
+        var hist = [];
+        for (var i = 0; i < myData.breaks.length; i++){
+            hist.push(0);
+        }
+        for (var i = 0; i < clusterIds.length; i++){
+            bin = this.searchBin(myData.breaks, myData.values[clusterIds[i]]);
+            hist[bin]++;
+        }
     }
+    console.log(hist)
 };
 
-
-function binaryIndexOf(searchElement) {
-    'use strict';
-
+EntropyCalculator.prototype.searchBin = function(breaks, value) {
     var minIndex = 0;
-    var maxIndex = this.length - 1;
-    var currentIndex;
-    var currentElement;
+    var maxIndex = breaks.length -2; //do not consider last element
+    var i;
 
     while (minIndex <= maxIndex) {
-        currentIndex = (minIndex + maxIndex) / 2 | 0;
-        currentElement = this[currentIndex];
-
-        if (currentElement < searchElement) {
-            minIndex = currentIndex + 1;
-        }
-        else if (currentElement > searchElement) {
-            maxIndex = currentIndex - 1;
-        }
-        else {
-            return currentIndex;
+        i = Math.floor((minIndex + maxIndex) / 2);
+        if (value < breaks[i]){
+            maxIndex = i - 1;
+        }else{
+            if (value < breaks[i+1]){
+                return i;
+            }else{
+                minIndex = i + 1;
+            }
         }
     }
-
-    return -1;
-}
-
+};

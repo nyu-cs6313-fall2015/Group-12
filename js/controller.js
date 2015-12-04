@@ -4,6 +4,7 @@ function Controller (){
     this.description = "Class Controller";
     this.clusterVis = new ClusterVis();
     this.dendrogram = undefined;
+    this.entropyCalculator = undefined;
 }
 
 Controller.prototype.dataUpdated = function(data){
@@ -15,6 +16,7 @@ Controller.prototype.dataUpdated = function(data){
             width:.25*this.clusterVis.width - 10 ,
             height:.85 * this.clusterVis.height - 6
         });
+    this.entropyCalculator = new EntropyCalculator(this.data);
     this.cutTree();
 };
 
@@ -88,8 +90,18 @@ Controller.prototype.cutTree = function(){
     for (var i = 0; i < roots.length; i++) {
         clusters[i] = this.dfs(roots[i], merges);
     }
-
+    this.entropyViews(clusters);
     this.clusterViews(clusters);
+};
+
+Controller.prototype.entropyViews = function(clusters){
+    for (var clustId = 0; clustId < clusters.length; clustId++){
+        for (var dimId = 0; dimId < this.data.data.length; dimId++){
+            this.entropyCalculator.calcEntropy(dimId, clusters[clustId])
+        }
+    }
+
+
 };
 
 Controller.prototype.clusterViews = function(children) {
