@@ -149,4 +149,4 @@ Controller.prototype.clusterViews = function(children) {
         }
     }
 
-}
+};
