@@ -26,7 +26,7 @@ DataSummary.prototype.createPlots = function(){
 
     function createPlot (d, i){
         var xpos = self.scales.x(d.dimension);
-        var width = self.scales.x.rangeBand() - 25;
+        var width = d3.min([self.scales.x.rangeBand() - 25, 50]);
         var limits = {x: xpos, y: self.limits.y, width : width, height: self.limits.height };
 
         var plot_svg = self.svg.append("g").attr("transform", "translate(" +  xpos + ",0)");
