@@ -40,16 +40,25 @@ Controller.prototype.intercepts = function(cutline, dline){
     return true;
 };
 
-Controller.prototype.dfs = function(root, merges){
+Controller.prototype.dfs = function(root){
     //Remember that R indexes are 1-based
     var toExplore = [root];
     var children = [];
-    var current;
+    var current, curCenter;
+    var nElem = this.data.hclust.order.length;
+    var minCenter = Infinity, maxCenter = -1;
+    var merges = this.data.hclust.merge;
+    var centers = this.dendrogram.centers;
     while (toExplore.length > 0){
         current = toExplore.pop();
         if (current < 0){
             //is a leaf
             children.push(-current - 1)
+            curCenter = centers[nElem - current];
+            if (curCenter < minCenter)
+                minCenter = curCenter;
+            if (curCenter > maxCenter)
+                maxCenter = curCenter;
         }else{
             //is not a leaf
             toExplore.push(merges[current-1][0]);
@@ -100,7 +109,7 @@ Controller.prototype.cutTree = function(){
 
     var clusters = [];
     for (var i = 0; i < roots.length; i++) {
-        clusters[i] = this.dfs(roots[i], merges);
+        clusters[i] = this.dfs(roots[i]);
     }
     this.entropyViews(clusters);
     this.clusterViews(clusters);
