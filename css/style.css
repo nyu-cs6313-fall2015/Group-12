@@ -26,9 +26,15 @@ body, html, .container-fluid, .sidebar, .body {
     font: 10px sans-serif;
 }
 
+.boxrect {
+    fill: #fff;
+    stroke: #555;
+    stroke-width: 2px;
+}
+
 .box {
     fill: steelblue;
-    stroke: #000;
+    stroke: #333;
     stroke-width: 1.5px;
 }
 
@@ -36,11 +42,11 @@ body, html, .container-fluid, .sidebar, .body {
 .whisker,
 .median {
     fill: #fff;
-    stroke: #000;
+    stroke: #333;
     stroke-width: 1.5px;
 }
 .center {
-    stroke: #000;
+    stroke: #333;
     stroke-width: 1.5px;
     stroke-dasharray: 3,3;
 }

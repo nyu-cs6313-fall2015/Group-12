@@ -25,8 +25,8 @@ Controller.prototype.dataUpdated = function(data){
         {
             x: .25*this.clusterVis.width + 10,
             y: .15 * this.clusterVis.height,
-            width:.75*this.clusterVis.width - 10 ,
-            height:.85 * this.clusterVis.height - 6
+            width:.55*this.clusterVis.width - 10,
+            height:.85 * this.clusterVis.height
         }, this.dendrogram.scales.y);
 
     this.cutTree();

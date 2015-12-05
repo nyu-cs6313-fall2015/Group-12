@@ -37,7 +37,7 @@ DataViews.prototype.createViews = function(children){
             x: self.limits.x,
             y: self.limits.y + i* self.limits.height/numClusters ,
             width: self.limits.width,
-            height: self.limits.height/numClusters - 15
+            height: self.limits.height/numClusters - 10
         };
 
         var view = new DataSummary(childData, self.svg, limits, self.dimensionsScales);
