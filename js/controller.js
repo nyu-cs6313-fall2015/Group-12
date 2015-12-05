@@ -103,7 +103,7 @@ Controller.prototype.cutTree = function(){
 
     //Sorting the roots (clusters in ascending order)
     roots.sort(function(a,b){
-        return heights[a] - heights[b];
+        return centers[nElem + a] - centers[nElem + b];
     });
 
     var clusters = [];
