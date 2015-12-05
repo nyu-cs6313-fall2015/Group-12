@@ -112,7 +112,7 @@ Box.prototype.draw = function(){
         .attr("class", "whisker")
         .attr("cx", bp.width/2)
         .attr("cy",  bp.y)
-        .attr("r", 8);
+        .attr("r", 5);
 
     //// Update outliers.
     var outlier = bp.svg.selectAll("circle.outlier")
@@ -126,41 +126,41 @@ Box.prototype.draw = function(){
         });
 
     //
-    //// Compute the tick format.
-    var format = bp.tickFormat || bp.y.tickFormat(8);
-
-    // Update box ticks.
-    var boxTick = bp.svg.selectAll("text.box")
-        .data(bp.quartileData);
-
-    boxTick.enter().append("text")
-        .attr("class", "boxtext")
-        .attr("dy", ".3em")
-        .attr("dx", function (d, i) {
-            return i & 1 ? 6 : -6
-        })
-        .attr("x", function (d, i) {
-            return i & 1 ? bp.width : 0
-        })
-        .attr("y", bp.y)
-        .attr("text-anchor", function (d, i) {
-            return i & 1 ? "start" : "end";
-        })
-        .text(format);
+    ////// Compute the tick format.
+    //var format = bp.tickFormat || bp.y.tickFormat(8);
     //
-    //// Update whisker ticks. These are handled separately from the box
-    //// ticks because they may or may not exist, and we want don't want
-    //// to join box ticks pre-transition with whisker ticks post-.
-    var whiskerTick =  bp.svg.selectAll("text.whisker")
-        .data(bp.whiskerData || []);
-
-    whiskerTick.enter().append("text")
-        .attr("class", "boxtext")
-        .attr("dy", ".3em")
-        .attr("dx", 6)
-        .attr("x", bp.width)
-        .attr("y", bp.y)
-        .text(format);
+    //// Update box ticks.
+    //var boxTick = bp.svg.selectAll("text.box")
+    //    .data(bp.quartileData);
+    //
+    //boxTick.enter().append("text")
+    //    .attr("class", "boxtext")
+    //    .attr("dy", ".3em")
+    //    .attr("dx", function (d, i) {
+    //        return i & 1 ? 6 : -6
+    //    })
+    //    .attr("x", function (d, i) {
+    //        return i & 1 ? bp.width : 0
+    //    })
+    //    .attr("y", bp.y)
+    //    .attr("text-anchor", function (d, i) {
+    //        return i & 1 ? "start" : "end";
+    //    })
+    //    .text(format);
+    ////
+    ////// Update whisker ticks. These are handled separately from the box
+    ////// ticks because they may or may not exist, and we want don't want
+    ////// to join box ticks pre-transition with whisker ticks post-.
+    //var whiskerTick =  bp.svg.selectAll("text.whisker")
+    //    .data(bp.whiskerData || []);
+    //
+    //whiskerTick.enter().append("text")
+    //    .attr("class", "boxtext")
+    //    .attr("dy", ".3em")
+    //    .attr("dx", 6)
+    //    .attr("x", bp.width)
+    //    .attr("y", bp.y)
+    //    .text(format);
 }
 //
 //        box.width = function(x) {

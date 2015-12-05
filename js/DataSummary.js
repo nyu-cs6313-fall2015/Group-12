@@ -7,26 +7,45 @@ function DataSummary(data, svg, limits, dataDimensionScales){
     this.scales = {};
     this.scales.x = d3.scale.ordinal()
         .domain(data.map(function(d) { return d.dimension; }))
-        .rangeRoundBands([this.limits.x, this.limits.x + this.limits.width], .1);
+        .rangeRoundBands([this.limits.x, this.limits.x + this.limits.width],.1, .1);
     this.scales.y = dataDimensionScales;
 
     this.svg = this.svg.append("g").attr("class","data_summary_group");
-
     this.plots = [];
-    this.createPlots();
 
+    this.createPlots();
     this.draw()
 }
 
 DataSummary.prototype.createPlots = function(){
     var self = this;
-    var plotDimension = createPlot;
 
-    this.data.forEach(plotDimension);
+    makeBox();
+    self.limits.y = self.limits.y + 8;
+    self.limits.height = self.limits.height-16;
 
-    function createPlot (d, i){
+    self.data.forEach(plotDimension);
+
+
+    function makeBox(){
+        self.svg.append("rect")
+            .attr("class","boxrect")
+            .attr("x", self.limits.x)
+            .attr("y", self.limits.y)
+            .attr("width", self.limits.width)
+            .attr("height", self.limits.height);
+    }
+
+    function plotDimension (d, i){
+        var minWidth = 50;
         var xpos = self.scales.x(d.dimension);
-        var width = d3.min([self.scales.x.rangeBand() - 25, 50]);
+        var width = self.scales.x.rangeBand() - 5;
+
+        if (self.scales.x.rangeBand() > minWidth) {
+            xpos += (self.scales.x.rangeBand() - minWidth) / 2;
+            width = minWidth;
+        }
+
         var limits = {x: xpos, y: self.limits.y, width : width, height: self.limits.height };
 
         var plot_svg = self.svg.append("g").attr("transform", "translate(" +  xpos + ",0)");
