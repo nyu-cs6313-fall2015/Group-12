@@ -5,6 +5,7 @@ function Dendrogram(controller, data, svg, limits, initialHeight){
     this.limits = limits;
     this.svg = svg;
     this.scales = {};
+    this.group = this.svg.append("g").attr("class","dendrogram_group");
 
     if (initialHeight === undefined) {
         var range = d3.extent(data.hclust.height);
@@ -23,8 +24,20 @@ function Dendrogram(controller, data, svg, limits, initialHeight){
     this.dendrogramLine = new DendrogramLine(controller, svg, this.scales.x, this.scales.y, initialHeight);
 }
 
+Dendrogram.prototype.drawClusters = function(clusterBoxes){
+    this.svg.selectAll(".clusterBox").remove();
+    for (var i = 0; i < clusterBoxes.length; i++){
+        this.group.append("rect")
+            .attr("class","clusterBox")
+            .attr("x", this.scales.x(clusterBoxes[i].height))
+            .attr("y", this.scales.y(clusterBoxes[i].y0))
+            .attr("width", this.scales.x.range()[0] - this.scales.x(clusterBoxes[i].height))
+            .attr("height", clusterBoxes[i].y1 - clusterBoxes[i].y0)
+            .style("fill", "red");
+    }
+};
+
 Dendrogram.prototype.draw = function(){
-    var group = this.svg.append("g").attr("class","dendrogram_group");
     var nElem = this.data.hclust.order.length;
     var nMerge = this.data.hclust.merge.length;
     this.centers = [];
@@ -64,7 +77,7 @@ Dendrogram.prototype.draw = function(){
             [heightChild2, centerChild2]
         ];
 
-        group.append("path")
+        this.group.append("path")
             .attr("d", line(linexy))
             .style("fill","none")
             .style("stroke","black")

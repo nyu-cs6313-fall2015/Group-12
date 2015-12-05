@@ -47,11 +47,11 @@ clusterObj <- function(originalData, distanceFunction = daisy, removeFromCluster
 
 
 #clustering medical dataset
-#data = read.csv("~/Downloads/pvecs/pvecs_small.csv")
-#o = clusterObj(data)
-#sink('pvecs_small_cluster.json')
-#cat(toJSON(o))
-#sink()
+data = read.csv("~/Downloads/pvecs/pvecs_small.csv")
+o = clusterObj(data)
+sink('pvecs_small_cluster.json')
+cat(toJSON(o))
+sink()
 
 #clustering iris dataset
 o = clusterObj(iris, removeFromCluster = c(5))

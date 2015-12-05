@@ -36,11 +36,11 @@ DendrogramLine.prototype.createDrag = function(){
             d3.select(this)
                 .attr("transform", function(d) {
                     return "translate(" + ( x - self.scaleX.range()[1])+ ", 0)";
-                })
+                });
 
             self.controller.cutTree();
         });
-}
+};
 
 DendrogramLine.prototype.draw = function(){
     var self=this;
@@ -71,11 +71,10 @@ DendrogramLine.prototype.draw = function(){
         .call(self.drag);
 
         selection.attr("d", function(d){
-            console
             var l = [
                 [self.scaleX.domain()[1], d.y0], 
                 [self.scaleX.domain()[1], d.y1]
             ]; 
             return self.d3line(l); 
-        })
+        });
 };

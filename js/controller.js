@@ -42,18 +42,19 @@ Controller.prototype.intercepts = function(cutline, dline){
 
 Controller.prototype.dfs = function(root){
     //Remember that R indexes are 1-based
+    var merges = this.data.hclust.merge;
+    var centers = this.dendrogram.centers;
+
     var toExplore = [root];
     var children = [];
     var current, curCenter;
     var nElem = this.data.hclust.order.length;
-    var minCenter = Infinity, maxCenter = -1;
-    var merges = this.data.hclust.merge;
-    var centers = this.dendrogram.centers;
+    var minCenter = centers[0], maxCenter = centers[0];
     while (toExplore.length > 0){
         current = toExplore.pop();
         if (current < 0){
             //is a leaf
-            children.push(-current - 1)
+            children.push(-current - 1);
             curCenter = centers[nElem - current];
             if (curCenter < minCenter)
                 minCenter = curCenter;
@@ -65,7 +66,7 @@ Controller.prototype.dfs = function(root){
             toExplore.push(merges[current-1][1]);
         }
     }
-    return children;
+    return {children: children, minCenter: minCenter, maxCenter: maxCenter};
 };
 
 Controller.prototype.cutTree = function(){
@@ -108,9 +109,14 @@ Controller.prototype.cutTree = function(){
     });
 
     var clusters = [];
+    var clusterBoxes = [];
     for (var i = 0; i < roots.length; i++) {
-        clusters[i] = this.dfs(roots[i]);
+        var cluster;
+        cluster = this.dfs(roots[i]);
+        clusters[i] = cluster.children;
+        clusterBoxes.push({height:heights[roots[i]], y0:cluster.minCenter, y1:cluster.maxCenter});
     }
+    this.dendrogram.drawClusters(clusterBoxes);
     this.entropyViews(clusters);
     this.clusterViews(clusters);
 };
@@ -128,4 +134,4 @@ Controller.prototype.entropyViews = function(clusters){
 
 Controller.prototype.clusterViews = function(children) {
     this.dataViews.createViews(children);
-}
+};
