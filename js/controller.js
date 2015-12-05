@@ -41,7 +41,6 @@ Controller.prototype.intercepts = function(cutline, dline){
 };
 
 Controller.prototype.dfs = function(root){
-    //Remember that R indexes are 1-based
     var merges = this.data.hclust.merge;
     var centers = this.dendrogram.centers;
 
@@ -49,13 +48,13 @@ Controller.prototype.dfs = function(root){
     var children = [];
     var current, curCenter;
     var nElem = this.data.hclust.order.length;
-    var minCenter = centers[0], maxCenter = centers[0];
+    var minCenter = Infinity, maxCenter = -1;
     while (toExplore.length > 0){
         current = toExplore.pop();
         if (current < 0){
             //is a leaf
             children.push(-current - 1);
-            curCenter = centers[nElem - current];
+            curCenter = centers[nElem + current];
             if (curCenter < minCenter)
                 minCenter = curCenter;
             if (curCenter > maxCenter)
@@ -77,7 +76,6 @@ Controller.prototype.cutTree = function(){
     var nElem = this.data.hclust.order.length;
 
     var roots = [];
-
     for (var iLine = 0; iLine < dLines.length; iLine++){
         var cutline = dLines[iLine];
         for (var iMerge = 0; iMerge < merges.length; iMerge++){
@@ -110,24 +108,25 @@ Controller.prototype.cutTree = function(){
 
     var clusters = [];
     var clusterBoxes = [];
+
     for (var i = 0; i < roots.length; i++) {
         var cluster;
         cluster = this.dfs(roots[i]);
         clusters[i] = cluster.children;
-        clusterBoxes.push({height:heights[roots[i]], y0:cluster.minCenter, y1:cluster.maxCenter});
+        clusterBoxes.push({height:heights[roots[i]-1], y0:cluster.minCenter, y1:cluster.maxCenter});
     }
-    //ssthis.dendrogram.drawClusters(clusterBoxes);
+    this.dendrogram.drawClusters(clusterBoxes);
     this.entropyViews(clusters);
     this.clusterViews(clusters);
 };
 
 Controller.prototype.entropyViews = function(clusters){
     for (var clustId = 0; clustId < clusters.length; clustId++){
-        console.log("cluster" + clustId);
+        //console.log("cluster" + clustId);
         for (var dimId = 0; dimId < this.data.data.length; dimId++){
             var entropy = this.entropyCalculator.calcEntropy(dimId, clusters[clustId]);
             var decreaseEntropyPercentage = 1 - entropy / this.data.data[dimId].entropy;
-            console.log(decreaseEntropyPercentage)
+            //console.log(decreaseEntropyPercentage)
         }
     }
 };

@@ -30,10 +30,11 @@ Dendrogram.prototype.drawClusters = function(clusterBoxes){
         this.group.append("rect")
             .attr("class","clusterBox")
             .attr("x", this.scales.x(clusterBoxes[i].height))
-            .attr("y", this.scales.y(clusterBoxes[i].y0))
+            .attr("y", this.scales.y(clusterBoxes[i].y0)+1) //1px margin
             .attr("width", this.scales.x.range()[0] - this.scales.x(clusterBoxes[i].height))
-            .attr("height", clusterBoxes[i].y1 - clusterBoxes[i].y0)
-            .style("fill", "red");
+            .attr("height", this.scales.y(clusterBoxes[i].y1) - this.scales.y(clusterBoxes[i].y0) -1)//1 px margin
+            .style("fill", "#4682B4")
+            .style("opacity", "0.2");
     }
 };
 
