@@ -33,8 +33,8 @@ Dendrogram.prototype.drawClusters = function(clusterBoxes){
             .attr("y", this.scales.y(clusterBoxes[i].y0)+1) //1px margin
             .attr("width", this.scales.x.range()[0] - this.scales.x(clusterBoxes[i].height))
             .attr("height", this.scales.y(clusterBoxes[i].y1) - this.scales.y(clusterBoxes[i].y0) -1)//1 px margin
-            .style("fill", "#4682B4")
-            .style("opacity", "0.2");
+            .style("fill", clusterBoxes[i].color)
+            .style("opacity", "0.4");
     }
 };
 

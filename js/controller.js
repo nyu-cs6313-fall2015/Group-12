@@ -108,12 +108,12 @@ Controller.prototype.cutTree = function(){
 
     var clusters = [];
     var clusterBoxes = [];
-
+    var colors = d3.scale.category10().range();
     for (var i = 0; i < roots.length; i++) {
         var cluster;
         cluster = this.dfs(roots[i]);
         clusters[i] = cluster.children;
-        clusterBoxes.push({height:heights[roots[i]-1], y0:cluster.minCenter, y1:cluster.maxCenter});
+        clusterBoxes.push({height:heights[roots[i]-1], y0:cluster.minCenter, y1:cluster.maxCenter, color: colors[i % colors.length]});
     }
     this.dendrogram.drawClusters(clusterBoxes);
     this.entropyViews(clusters);
