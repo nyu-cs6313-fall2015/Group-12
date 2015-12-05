@@ -116,7 +116,7 @@ Controller.prototype.cutTree = function(){
         clusters[i] = cluster.children;
         clusterBoxes.push({height:heights[roots[i]], y0:cluster.minCenter, y1:cluster.maxCenter});
     }
-    this.dendrogram.drawClusters(clusterBoxes);
+    //ssthis.dendrogram.drawClusters(clusterBoxes);
     this.entropyViews(clusters);
     this.clusterViews(clusters);
 };
