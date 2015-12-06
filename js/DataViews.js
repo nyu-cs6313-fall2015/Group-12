@@ -60,7 +60,7 @@ DataViews.prototype.createViews = function(children){
         }
     }
 
-}
+};
 
 function buildScale(d){
     if (d.type == "quantitative")

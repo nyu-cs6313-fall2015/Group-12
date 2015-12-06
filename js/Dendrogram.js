@@ -21,7 +21,7 @@ function Dendrogram(controller, data, svg, limits, initialHeight){
         .range([limits.y, limits.y + limits.height]);
 
     this.draw();
-    this.dendrogramLine = new DendrogramLine(controller, svg, this.scales.x, this.scales.y, initialHeight);
+    this.dendrogramLine = new DendrogramLine(controller, this.group, this.scales.x, this.scales.y, initialHeight);
 }
 
 Dendrogram.prototype.drawClusters = function(clusterBoxes){

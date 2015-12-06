@@ -6,6 +6,7 @@ function Controller (){
     this.dendrogram = undefined;
     this.dataViews = undefined;
     this.entropyCalculator = undefined;
+    this.entropyPerCluster = undefined;
 }
 
 Controller.prototype.dataUpdated = function(data){
@@ -28,6 +29,13 @@ Controller.prototype.dataUpdated = function(data){
             width:.55*this.clusterVis.width - 10,
             height:.85 * this.clusterVis.height
         }, this.dendrogram.scales.y);
+
+    this.entropyPerCluster = new EntropyPerCluster(this, data.data, this.clusterVis.svg, {
+        x: .80*this.clusterVis.width + 10,
+        y: .15 * this.clusterVis.height,
+        width:.20 * this.clusterVis.width - 20,
+        height:.85 * this.clusterVis.height
+    });
 
     this.cutTree();
 };
@@ -121,14 +129,16 @@ Controller.prototype.cutTree = function(){
 };
 
 Controller.prototype.entropyViews = function(clusters){
+    var entropiesDecrease = [];
     for (var clustId = 0; clustId < clusters.length; clustId++){
-        //console.log("cluster" + clustId);
+        entropiesDecrease[clustId] = [];
         for (var dimId = 0; dimId < this.data.data.length; dimId++){
             var entropy = this.entropyCalculator.calcEntropy(dimId, clusters[clustId]);
             var decreaseEntropyPercentage = 1 - entropy / this.data.data[dimId].entropy;
-            //console.log(decreaseEntropyPercentage)
+            entropiesDecrease[clustId].push(decreaseEntropyPercentage);
         }
     }
+    this.entropyPerCluster.draw(entropiesDecrease);
 };
 
 Controller.prototype.clusterViews = function(children) {

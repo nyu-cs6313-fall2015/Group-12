@@ -55,3 +55,16 @@ body, html, .container-fluid, .sidebar, .body {
     fill: none;
     stroke: #ccc;
 }
+
+.histRect {
+    fill: steelblue;
+    stroke: #333;
+    stroke-width: 1.5px;
+}
+
+.tooltip {
+    position: absolute;
+    width: 200px;
+    height: 28px;
+    pointer-events: none;
+}
