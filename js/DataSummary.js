@@ -1,5 +1,5 @@
 
-function DataSummary(data, svg, limits, dataDimensionScales){
+function DataSummary(data, svg, limits, dataDimensionScales, boxColor){
     this.description = "Data Summary Object";
     this.data = data;
     this.limits = limits;
@@ -12,6 +12,8 @@ function DataSummary(data, svg, limits, dataDimensionScales){
 
     this.svg = this.svg.append("g").attr("class","data_summary_group");
     this.plots = [];
+
+    this.boxColor = boxColor;
 
     this.createPlots();
     this.draw()
@@ -33,7 +35,8 @@ DataSummary.prototype.createPlots = function(){
             .attr("x", self.limits.x)
             .attr("y", self.limits.y)
             .attr("width", self.limits.width)
-            .attr("height", self.limits.height);
+            .attr("height", self.limits.height)
+            .style("stroke", self.boxColor);
     }
 
     function plotDimension (d, i){

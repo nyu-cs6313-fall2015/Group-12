@@ -125,7 +125,7 @@ Controller.prototype.cutTree = function(){
     }
     this.dendrogram.drawClusters(clusterBoxes);
     this.entropyViews(clusters);
-    this.clusterViews(clusters);
+    this.clusterViews(clusters, colors);
 };
 
 Controller.prototype.entropyViews = function(clusters){
@@ -141,6 +141,6 @@ Controller.prototype.entropyViews = function(clusters){
     this.entropyPerCluster.draw(entropiesDecrease);
 };
 
-Controller.prototype.clusterViews = function(children) {
-    this.dataViews.createViews(children);
+Controller.prototype.clusterViews = function(children, colors) {
+    this.dataViews.createViews(children, colors);
 };

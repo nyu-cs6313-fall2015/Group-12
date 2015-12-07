@@ -112,7 +112,7 @@ Box.prototype.draw = function(){
         .attr("class", "whisker")
         .attr("cx", bp.width/2)
         .attr("cy",  bp.y)
-        .attr("r", 5);
+        .attr("r", 3);
 
     //// Update outliers.
     var outlier = bp.svg.selectAll("circle.outlier")

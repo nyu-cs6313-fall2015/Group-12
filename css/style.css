@@ -27,9 +27,8 @@ body, html, .container-fluid, .sidebar, .body {
 }
 
 .boxrect {
-    fill: #fff;
-    stroke: #555;
-    stroke-width: 2px;
+    fill: none;
+    stroke-width: 3.5px;
 }
 
 .box {

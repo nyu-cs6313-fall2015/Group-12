@@ -8,6 +8,7 @@ function DataViews (controller, data, svg, limits, scaleY){
     this.limits = limits;
     this.svg = svg;
     this.scales = {};
+    this.colors = undefined;
 
     this.scales.x = d3.scale.ordinal()
         .domain(data.map(function(d) { return d.dimension; }))
@@ -18,9 +19,10 @@ function DataViews (controller, data, svg, limits, scaleY){
     this.svg = this.svg.append("g").attr("class","data_views");
 }
 
-DataViews.prototype.createViews = function(children){
+DataViews.prototype.createViews = function(children, clusterColors){
     var self = this;
     var numClusters = children.length;
+    self.colors = clusterColors;
 
     d3.selectAll(".data_summary_group").remove();
 
@@ -40,7 +42,7 @@ DataViews.prototype.createViews = function(children){
             height: self.limits.height/numClusters - 10
         };
 
-        var view = new DataSummary(childData, self.svg, limits, self.dimensionsScales);
+        var view = new DataSummary(childData, self.svg, limits, self.dimensionsScales, self.colors[i % self.colors.length]);
 
         self.dataSummaryViews.push(view);
 
@@ -78,7 +80,7 @@ function buildScale(d){
 
         return d3.scale.ordinal()
             .domain(data_bins.map(function (d) { return d.key; }))
-            .range(colorbrewer.Set2[data_bins.length]);
+            .range(colorbrewer.Set3[data_bins.length]);
     }
 }
 

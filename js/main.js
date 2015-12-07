@@ -1,8 +1,8 @@
 "use strict";
-
 (function() {
 
     var filename = 'data/iris_cluster.json';
+
     
     var controller = new Controller();
 
