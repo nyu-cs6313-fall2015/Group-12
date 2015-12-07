@@ -124,11 +124,11 @@ Controller.prototype.cutTree = function(){
         clusterBoxes.push({height:heights[roots[i]-1], y0:cluster.minCenter, y1:cluster.maxCenter, color: colors[i % colors.length]});
     }
     this.dendrogram.drawClusters(clusterBoxes);
-    this.entropyViews(clusters);
+    this.entropyViews(clusters, colors);
     this.clusterViews(clusters, colors);
 };
 
-Controller.prototype.entropyViews = function(clusters){
+Controller.prototype.entropyViews = function(clusters, colors){
     var entropiesDecrease = [];
     for (var clustId = 0; clustId < clusters.length; clustId++){
         entropiesDecrease[clustId] = [];
@@ -138,7 +138,7 @@ Controller.prototype.entropyViews = function(clusters){
             entropiesDecrease[clustId].push(decreaseEntropyPercentage);
         }
     }
-    this.entropyPerCluster.draw(entropiesDecrease);
+    this.entropyPerCluster.draw(entropiesDecrease, colors);
 };
 
 Controller.prototype.clusterViews = function(children, colors) {

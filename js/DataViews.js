@@ -80,7 +80,7 @@ function buildScale(d){
 
         return d3.scale.ordinal()
             .domain(data_bins.map(function (d) { return d.key; }))
-            .range(colorbrewer.Set3[data_bins.length]);
+            .range(colorbrewer.Set2[data_bins.length]);
     }
 }
 

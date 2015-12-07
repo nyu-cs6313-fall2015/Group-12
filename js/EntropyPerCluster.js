@@ -8,7 +8,7 @@ function EntropyPerCluster(controller, data, svg, limits){
 }
 
 
-EntropyPerCluster.prototype.draw = function(entropiesDecrease){
+EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
     var numClusters = entropiesDecrease.length;
     var numDimensions = entropiesDecrease[0].length;
 
@@ -35,7 +35,8 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease){
             .attr("y", mylimits.y)
             .attr("width", mylimits.width)
             .attr("height", mylimits.height)
-            .attr("class", "boxrect");
+            .attr("class", "boxrect")
+            .style("stroke", colors[i % colors.length])
 
         var x = d3.scale.linear()
             .domain([0, numDimensions-1])

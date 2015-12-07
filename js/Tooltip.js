@@ -7,6 +7,7 @@ Tooltip.prototype.init = function () {
     d3.select("body").append("div").attr("class", "tooltip top fade").attr("id", "tooltip-global-" + this.randomId);
     //d3.select(".tooltip").append("div").attr("class","tooltip-arrow");
     d3.select(".tooltip").append("div").attr("class", "tooltip-inner").attr("id", "tooltip-" + this.randomId);
+    d3.select("#tooltip-global-" + this.randomId).style("top", "0px").style("left", "0px");
 };
 
 Tooltip.prototype.show = function (text) {
