@@ -69,18 +69,23 @@ function buildScale(d){
         return d3.scale.linear().domain(d3.extent(d.values));
 
     else if (d.type == "categorical") {
-        var data_bins = d3.nest()
-            .key(function (d) { return d; })
-            .rollup(function (v) {  return v.length; })
-            .entries(d.values);
-
-        data_bins.sort(function (a, b) {
-            return b.values - a.values;
-        });
-
-        return d3.scale.ordinal()
-            .domain(data_bins.map(function (d) { return d.key; }))
-            .range(colorbrewer.Set2[data_bins.length]);
+        //var data_bins = d3.nest()
+        //    .key(function (d) { return d; })
+        //    .rollup(function (v) {  return v.length; })
+        //    .entries(d.values);
+        //
+        //data_bins.sort(function (a, b) {
+        //    return b.values - a.values;
+        //});
+        //
+        //return d3.scale.ordinal()
+        //  .domain(data_bins.map(function (d) { return d.key; }))
+        //  .range(colorbrewer.Set2[data_bins.length]);
+        //
+        console.log(d.levels.length);
+        return d3.scale.category10()
+          .domain(d.levels)
+         ;
     }
 }
 

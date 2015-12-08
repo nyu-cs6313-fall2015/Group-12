@@ -1,33 +1,37 @@
 function StackedBar(d, svg, limits, colorScale){
 
-    var sb = this;
+    var self = this;
 
-    sb.data = d;
-    sb.svg = svg;
-    sb.limits = limits;
+    self.data = d;
+    self.svg = svg;
+    self.limits = limits;
 
-    sb.width = limits.width; // TODO: this width needs to change!!
+    self.width = limits.width; // TODO: this width needs to change!!
 
-    sb.y = d3.scale.linear()
-        .domain([0, sb.data.values.length])
+    self.y = d3.scale.linear()
+        .domain([0, self.data.values.length])
         .range([limits.y + limits.height, limits.y]);
 
 
-    sb.data_bins = d3.nest()
+    self.data_bins = d3.nest()
         .key(function(d) { return d; })
         .rollup(function(v) { return v.length; })
-        .entries(sb.data.values);
+        .entries(self.data.values);
 
-    sb.data_bins.sort(function(a, b) { return b.values - a.values; });
+    self.data_bins.sort(function(a, b) { return b.values - a.values; });
 
-    //sb.color =  d3.scale.ordinal()
+    //self.color =  d3.scale.ordinal()
     //    .range(colorbrewer.Set2[8]);
-    //    .domain(sb.data_bins.map(function(d) { return d.key; }));
+    //    .domain(self.data_bins.map(function(d) { return d.key; }));
 
-    sb.color = colorScale;
+    self.color = colorScale;
+
+    console.log(colorScale.range());
+    console.log(colorScale.domain());
+
 
     var y0 = 0;
-    sb.data_bins.forEach(function(d){
+    self.data_bins.forEach(function(d){
         d.y0 = y0;
         d.y1 = y0 += +d["values"];
     });
@@ -36,13 +40,13 @@ function StackedBar(d, svg, limits, colorScale){
 }
 
 StackedBar.prototype.draw = function(){
-    var sb = this;
+    var self = this;
 
-    sb.svg.selectAll("rect")
-        .data(sb.data_bins)
+    self.svg.selectAll("rect")
+        .data(self.data_bins)
         .enter().append("rect")
-        .attr("width", sb.width)//x.rangeBand())
-        .attr("y", function(d) { return sb.y(d.y1); })
-        .attr("height", function(d) { return sb.y(d.y0) - sb.y(d.y1); })
-        .style("fill", function(d){ return sb.color(d.key)});
+        .attr("width", self.width)//x.rangeBand())
+        .attr("y", function(d) { return self.y(d.y1); })
+        .attr("height", function(d) { return self.y(d.y0) - self.y(d.y1); })
+        .style("fill", function(d){ console.log(self.color(d.key)); return self.color(d.key)});
 };
