@@ -18,8 +18,6 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
 
     var xMargin = 5;
     var yMargin = 3;
-    var usableWidth = this.limits.width - 2*xMargin;
-    var binSize = (usableWidth)/numDimensions;
 
     for (var i = 0; i < numClusters; i++){
 
@@ -27,20 +25,14 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
             x: this.limits.x,
             y: this.limits.y + i* this.limits.height/numClusters ,
             width: this.limits.width,
-            height: this.limits.height/numClusters - 10
+            height: this.limits.height/numClusters - 6
         };
 
-        this.group.append("rect")
-            .attr("x", mylimits.x)
-            .attr("y", mylimits.y)
-            .attr("width", mylimits.width)
-            .attr("height", mylimits.height)
-            .attr("class", "boxrect")
-            .style("stroke", colors[i % colors.length])
 
-        var x = d3.scale.linear()
-            .domain([0, numDimensions-1])
-            .range([mylimits.x + xMargin, mylimits.x+mylimits.width - xMargin - binSize]);
+
+        var x = d3.scale.ordinal()
+            .domain(d3.range(numDimensions))
+            .rangeBands([mylimits.x + xMargin, mylimits.x+mylimits.width - xMargin],0.3);
 
         var y = d3.scale.linear()
             .domain([0,1])
@@ -53,7 +45,7 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
         histogram.enter().append("rect")
             .attr("x", function(d,i){return x(i)})
             .attr("y", function(d,i){return y(d)})
-            .attr("width", binSize-xMargin)
+            .attr("width", x.rangeBand())
             .attr("height", function(d,i){return Math.max(mylimits.y+mylimits.height - y(d),0)})
             .attr("class","histRect")
             .on("mouseover", function (d,i) {
@@ -66,6 +58,14 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
                 _this.tooltip.updatePosition();
             });
 
+
+        this.group.append("rect")
+            .attr("x", mylimits.x)
+            .attr("y", mylimits.y)
+            .attr("width", mylimits.width)
+            .attr("height", mylimits.height)
+            .attr("class", "boxrect")
+            .style("stroke", colors[i % colors.length]);
     }
 
 };

@@ -26,7 +26,7 @@ DataSummary.prototype.createPlots = function(){
         self.limits.y +.5*self.limits.height,
         self.limits.y +.75*self.limits.height];
 
-    console.log(self.quartiles);
+
 
     makeBox();
     self.limits.y = self.limits.y + 3;
@@ -50,7 +50,7 @@ DataSummary.prototype.createPlots = function(){
           .attr("class","boxline")
           .attr("x1", self.limits.x)
           .attr("x2", self.limits.x + self.limits.width)
-          .attr("y1", function(d){ console.log(d);  return d;})
+          .attr("y1", function(d){  return d;})
           .attr("y2", function(d){return d;})
           .style("stroke", self.boxColor);
     }

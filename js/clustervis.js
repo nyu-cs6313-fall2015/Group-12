@@ -7,5 +7,6 @@ function ClusterVis(){
     this.svg = d3.select('#main')
         .append("svg")
         .attr("width", this.width)
-        .attr("height", this.height);
+        .attr("height", this.height)
+
 }

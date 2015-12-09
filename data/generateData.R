@@ -63,11 +63,11 @@ cat(toJSON(o))
 sink()
 
 #clustering medical dataset
-data = read.csv("OriginalMedical/processed_large.csv"); data[,"info__county"] = as.factor(data[,"info__county"])
-o = clusterObj(data[,2:ncol(data)])
-sink('processed_large_cluster.json')
-cat(toJSON(o))
-sink()
+# data = read.csv("OriginalMedical/processed_large.csv"); data[,"info__county"] = as.factor(data[,"info__county"])
+# o = clusterObj(data[,2:ncol(data)])
+# sink('processed_large_cluster.json')
+# cat(toJSON(o))
+# sink()
 
 
 #clustering iris dataset

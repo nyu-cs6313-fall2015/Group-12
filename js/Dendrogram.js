@@ -1,11 +1,17 @@
 function Dendrogram(controller, data, svg, limits, initialHeight){
     this.description = "Dendrogram Object";
+    //this.maxDendrogramMerges = 400;
     this.data = data;
     this.controller = controller;
     this.limits = limits;
     this.svg = svg;
     this.scales = {};
-    this.group = this.svg.append("g").attr("class","dendrogram_group");
+    this.group = this.svg.append("g")
+        .attr("class","dendrogram_group");
+
+    this.boxesGroup = this.svg.append("g")
+        .attr("class", "dendrogram_boxes_group");
+
 
     if (initialHeight === undefined) {
         var range = d3.extent(data.hclust.height);
@@ -14,11 +20,13 @@ function Dendrogram(controller, data, svg, limits, initialHeight){
 
     this.scales.x = d3.scale.linear()
         .domain(d3.extent(data.hclust.height))
-        .range([limits.x + limits.width, limits.x]);
+        .range([limits.x + limits.width, limits.x])
+        .clamp(true);
 
     this.scales.y = d3.scale.linear()
         .domain([0, this.data.hclust.order.length-1])
-        .range([limits.y, limits.y + limits.height]);
+        .range([limits.y, limits.y + limits.height])
+        .clamp(true);
 
     this.draw();
     this.dendrogramLine = new DendrogramLine(controller, this.group, this.scales.x, this.scales.y, initialHeight);
@@ -27,7 +35,7 @@ function Dendrogram(controller, data, svg, limits, initialHeight){
 Dendrogram.prototype.drawClusters = function(clusterBoxes){
     this.svg.selectAll(".clusterBox").remove();
     for (var i = 0; i < clusterBoxes.length; i++){
-        this.group.append("rect")
+        this.boxesGroup.append("rect")
             .attr("class","clusterBox")
             .attr("x", this.scales.x(clusterBoxes[i].height))
             .attr("y", this.scales.y(clusterBoxes[i].y0)+1) //1px margin
@@ -61,6 +69,9 @@ Dendrogram.prototype.draw = function(){
         .y(function(d){ return (self.scales.y(d[1])); })
         .interpolate("linear");
 
+
+    //var drawAfterNIters  = nMerge - this.maxDendrogramMerges;
+
     for (var i = 0; i < nMerge; i++){
         //store centers from merges in nElem + index (there is an undefined in centers[nElem])
         var child1 = merge[i][0];
@@ -71,17 +82,20 @@ Dendrogram.prototype.draw = function(){
 
         var heightChild1 = (child1>0?height[child1-1]:XZERO);
         var heightChild2 = (child2>0?height[child2-1]:XZERO);
-        var linexy = [
-            [heightChild1, centerChild1],
-            [height[i], centerChild1],
-            [height[i], centerChild2],
-            [heightChild2, centerChild2]
-        ];
 
-        this.group.append("path")
-            .attr("d", line(linexy))
-            .style("fill","none")
-            .style("stroke","black")
-            .attr("class","dendrogramConnector");
+        //if (i > drawAfterNIters){
+            var linexy = [
+                [heightChild1, centerChild1],
+                [height[i], centerChild1],
+                [height[i], centerChild2],
+                [heightChild2, centerChild2]
+            ];
+
+            this.group.append("path")
+                .attr("d", line(linexy))
+                .style("fill","none")
+                .style("stroke","black")
+                .attr("class","dendrogramConnector");
+       // }
     }
 };

@@ -7,6 +7,7 @@ function Controller (){
     this.dataViews = undefined;
     this.entropyCalculator = undefined;
     this.entropyPerCluster = undefined;
+    this.topEntropy = undefined;
     this.tooltip = new Tooltip();
 }
 
@@ -37,6 +38,15 @@ Controller.prototype.dataUpdated = function(data){
         width:.20 * this.clusterVis.width - 20,
         height:.85 * this.clusterVis.height
     });
+
+    this.topEntropy = new TopEntropy(this, data.data, this.clusterVis.svg,
+        {
+            x: .25*this.clusterVis.width + 10,
+            y: 5,
+            width:.55*this.clusterVis.width - 10,
+            height:.15 * this.clusterVis.height -10
+        });
+
 
     this.cutTree();
 };
@@ -130,16 +140,21 @@ Controller.prototype.cutTree = function(){
 };
 
 Controller.prototype.entropyViews = function(clusters, colors){
+    var averageEntropyDecrease = [];
     var entropiesDecrease = [];
+    for (var i = 0; i < this.data.data.length; i++){averageEntropyDecrease.push(0)}
+
     for (var clustId = 0; clustId < clusters.length; clustId++){
         entropiesDecrease[clustId] = [];
         for (var dimId = 0; dimId < this.data.data.length; dimId++){
             var entropy = this.entropyCalculator.calcEntropy(dimId, clusters[clustId]);
-            var decreaseEntropyPercentage = 1 - entropy / this.data.data[dimId].entropy;
+            var decreaseEntropyPercentage = Math.max(0,1 - entropy / this.data.data[dimId].entropy);
             entropiesDecrease[clustId].push(decreaseEntropyPercentage);
+            averageEntropyDecrease[dimId] += decreaseEntropyPercentage/clusters.length;
         }
     }
     this.entropyPerCluster.draw(entropiesDecrease, colors);
+    this.topEntropy.draw(averageEntropyDecrease);
 };
 
 Controller.prototype.clusterViews = function(children, colors) {

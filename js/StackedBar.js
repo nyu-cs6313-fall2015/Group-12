@@ -21,10 +21,6 @@ function StackedBar(d, svg, limits, colorScale, tooltip){
 
     self.data_bins.sort(function(a, b) { return b.values - a.values; });
 
-    //self.color =  d3.scale.ordinal()
-    //    .range(colorbrewer.Set2[8]);
-    //    .domain(self.data_bins.map(function(d) { return d.key; }));
-
     self.color = colorScale;
 
     var y0 = 0;
