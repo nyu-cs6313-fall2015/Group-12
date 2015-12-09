@@ -24,8 +24,8 @@ DataSummary.prototype.createPlots = function(){
     var self = this;
 
     makeBox();
-    self.limits.y = self.limits.y + 8;
-    self.limits.height = self.limits.height-16;
+    self.limits.y = self.limits.y + 3;
+    self.limits.height = self.limits.height- 6;
 
     self.data.forEach(plotDimension);
 

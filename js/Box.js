@@ -1,49 +1,51 @@
-function Box(d, svg, limits, scaleY) {
+function Box(d, svg, limits, scaleY, tooltip) {
 
-    var bp = this;
+    var self = this;
 
-    bp.data = d.values;
-    bp.svg = svg;
-    bp.limits = limits;
+    self.data = d.values;
+    self.dimension = d.dimension;
+    self.svg = svg;
+    self.limits = limits;
+    self.tooltip = tooltip;
 
-    bp.width = limits.width;
+    self.width = limits.width;
 
-    //bp.y = d3.scale.linear()
-    //    .domain(d3.extent(bp.data))
+    //self.y = d3.scale.linear()
+    //    .domain(d3.extent(self.data))
     //    .range([limits.y + limits.height, limits.y]);
 
-    bp.y = scaleY
-        .range([limits.y + limits.height, limits.y]);
+    self.y = scaleY
+      .range([limits.y + limits.height, limits.y]);
 
     var whiskers = boxWhiskers;
     var quartiles = boxQuartiles;
 
-    bp.data.sort(); //function(a, b) { return b - a; }
-    var n = bp.data.length;
-    var min = bp.data[0];
-    var max = bp.data[n - 1];
+    self.data.sort(function(a, b) { return a - b; });
+    var n = self.data.length;
+    var min = self.data[0];
+    var max = self.data[n - 1];
 
     var tickFormat = null;
 
     // Compute quartiles. Must return exactly 3 elements.
-    bp.quartileData = bp.data.quartiles = quartiles(bp.data);
+    self.quartileData = self.data.quartiles = quartiles(self.data);
 
     // Compute whiskers. Must return exactly 2 elements, or null.
-    bp.whiskerIndices = whiskers && whiskers(bp.data);
-    bp.whiskerData = bp.whiskerIndices && bp.whiskerIndices.map(function (i) {
-                return bp.data[i];
-            });
+    self.whiskerIndices = whiskers && whiskers(self.data);
+    self.whiskerData = self.whiskerIndices && self.whiskerIndices.map(function (i) {
+          return self.data[i];
+      });
 
     // Compute outliers. If no whiskers are specified, all data are "outliers".
     // We compute the outliers as indices, so that we can join across transitions!
-    bp.outlierIndices = bp.whiskerIndices
-        ? d3.range(0, bp.whiskerIndices[0]).concat(d3.range(bp.whiskerIndices[1] + 1, n))
-        : d3.range(n);
+    self.outlierIndices = self.whiskerIndices
+      ? d3.range(0, self.whiskerIndices[0]).concat(d3.range(self.whiskerIndices[1] + 1, n))
+      : d3.range(n);
 }
 
 Box.prototype.draw = function(){
 
-    var bp = this;
+    var self = this;
 
     //// Compute the new x-scale.
     //var x1 = d3.scale.linear()
@@ -64,74 +66,101 @@ Box.prototype.draw = function(){
     // elements also fade in and out.
 
     // Update center line: the vertical line spanning the whiskers.
-    var center = bp.svg.selectAll("line.center")
-        .data(bp.whiskerData ? [bp.whiskerData] : []);
+    var center = self.svg.selectAll("line.center")
+      .data(self.whiskerData ? [self.whiskerData] : []);
 
 
     center.enter().insert("line", "rect")
-        .attr("class", "center")
-        .attr("x1", bp.width / 2)
-        .attr("y1", function (d) {
-            return  bp.y(d[0]);
-        })
-        .attr("x2", bp.width / 2)
-        .attr("y2", function (d) {
-            return bp.y(d[1]);
-        });
+      .attr("class", "center")
+      .attr("x1", self.width / 2)
+      .attr("y1", function (d) {
+          return  self.y(d[0]);
+      })
+      .attr("x2", self.width / 2)
+      .attr("y2", function (d) {
+          return self.y(d[1]);
+      })
+      .on("mouseover", function (d,i) {
+          self.tooltip.show(self.dimension + ":  median " + d[1]);
+      })
+      .on("mouseout", function (d) {
+          self.tooltip.hide();
+      })
+      .on("mousemove", function(d){
+          self.tooltip.updatePosition();
+      });
 
 
     // Update innerquartile box.
-    var box = bp.svg.selectAll("rect.box")
-        .data([bp.quartileData]);
+    var box = self.svg.selectAll("rect.box")
+      .data([self.quartileData]);
 
     box.enter().append("rect")
-        .attr("class", "box")
-        .attr("x", 0)
-        .attr("y", function (d) {
-            return bp.y(d[2]);
-        })
-        .attr("width", bp.width)
-        .attr("height", function (d) {
-            return bp.y(d[0]) - bp.y(d[2]);
-        });
+      .attr("class", "box")
+      .attr("x", 0)
+      .attr("y", function (d) {
+          return self.y(d[2]);
+      })
+      .attr("width", self.width)
+      .attr("height", function (d) {
+          return self.y(d[0]) - self.y(d[2]);
+      })
+      .on("mouseover", function (d,i) {
+          self.tooltip.show(self.dimension + ":  median " + d[1]);
+      })
+      .on("mouseout", function (d) {
+          self.tooltip.hide();
+      })
+      .on("mousemove", function(d){
+          self.tooltip.updatePosition();
+      });
 
     //// Update median line.
-    var medianLine = bp.svg.selectAll("line.median")
-        .data([bp.quartileData[1]])
-        .enter().append("line")
-        .attr("class", "median")
-        .attr("x1", 0)
-        .attr("y1", bp.y)
-        .attr("x2", bp.width)
-        .attr("y2", bp.y);
+    var medianLine = self.svg.selectAll("line.median")
+      .data([self.quartileData[1]])
+      .enter().append("line")
+      .attr("class", "median")
+      .attr("x1", 0)
+      .attr("y1", self.y)
+      .attr("x2", self.width)
+      .attr("y2", self.y);
 
     // Update whiskers.
-    var whisker = bp.svg.selectAll("line.whisker")
-        .data(bp.whiskerData || [])
-        .enter().insert("circle", "circle, text")
-        .attr("class", "whisker")
-        .attr("cx", bp.width/2)
-        .attr("cy",  bp.y)
-        .attr("r", 3);
+    var whisker = self.svg.selectAll("line.whisker")
+      .data(self.whiskerData || [])
+      .enter().insert("circle", "circle, text")
+      .attr("class", "whisker")
+      .attr("cx", self.width/2)
+      .attr("cy",  self.y)
+      .attr("r", 3)
+      .on("mouseover", function (d,i) {
+          self.tooltip.show(self.dimension + ":  whisker value " + d);
+      })
+      .on("mouseout", function (d) {
+          self.tooltip.hide();
+      })
+      .on("mousemove", function(d){
+          self.tooltip.updatePosition();
+      });
 
     //// Update outliers.
-    var outlier = bp.svg.selectAll("circle.outlier")
-        .data(bp.outlierIndices, Number)
-        .enter().insert("circle", "text")
-        .attr("class", "outlier")
-        .attr("r", 5)
-        .attr("cx", bp.width / 2)
-        .attr("cy", function (i) {
-            return bp.y(d[i]);
-        });
+    var outlier = self.svg.selectAll("circle.outlier")
+      .data(self.outlierIndices, Number)
+      .enter().insert("circle", "text")
+      .attr("class", "outlier")
+      .attr("r", 5)
+      .attr("cx", self.width / 2)
+      .attr("cy", function (i) {
+          return self.y(d[i]);
+      });
 
     //
     ////// Compute the tick format.
-    //var format = bp.tickFormat || bp.y.tickFormat(8);
+    //var format = self.tickFormat || self.y.tickFormat(8);
     //
     //// Update box ticks.
-    //var boxTick = bp.svg.selectAll("text.box")
-    //    .data(bp.quartileData);
+    //var boxTick = self.svg.selectAll("text.box")
+    //    .data(self.quartileData);
     //
     //boxTick.enter().append("text")
     //    .attr("class", "boxtext")
@@ -140,9 +169,9 @@ Box.prototype.draw = function(){
     //        return i & 1 ? 6 : -6
     //    })
     //    .attr("x", function (d, i) {
-    //        return i & 1 ? bp.width : 0
+    //        return i & 1 ? self.width : 0
     //    })
-    //    .attr("y", bp.y)
+    //    .attr("y", self.y)
     //    .attr("text-anchor", function (d, i) {
     //        return i & 1 ? "start" : "end";
     //    })
@@ -151,15 +180,15 @@ Box.prototype.draw = function(){
     ////// Update whisker ticks. These are handled separately from the box
     ////// ticks because they may or may not exist, and we want don't want
     ////// to join box ticks pre-transition with whisker ticks post-.
-    //var whiskerTick =  bp.svg.selectAll("text.whisker")
-    //    .data(bp.whiskerData || []);
+    //var whiskerTick =  self.svg.selectAll("text.whisker")
+    //    .data(self.whiskerData || []);
     //
     //whiskerTick.enter().append("text")
     //    .attr("class", "boxtext")
     //    .attr("dy", ".3em")
     //    .attr("dx", 6)
-    //    .attr("x", bp.width)
-    //    .attr("y", bp.y)
+    //    .attr("x", self.width)
+    //    .attr("y", self.y)
     //    .text(format);
 }
 //

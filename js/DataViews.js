@@ -39,7 +39,7 @@ DataViews.prototype.createViews = function(children, clusterColors){
             x: self.limits.x,
             y: self.limits.y + i* self.limits.height/numClusters ,
             width: self.limits.width,
-            height: self.limits.height/numClusters - 10
+            height: self.limits.height/numClusters - 6
         };
 
         var view = new DataSummary(childData, self.svg, limits,
@@ -67,8 +67,10 @@ DataViews.prototype.createViews = function(children, clusterColors){
 };
 
 function buildScale(d){
-    if (d.type == "quantitative")
-        return d3.scale.linear().domain(d3.extent(d.values));
+    if (d.type == "quantitative") {
+        return d3.scale.linear()
+          .domain(d3.extent(d.values));
+    }
 
     else if (d.type == "categorical") {
         //var data_bins = d3.nest()

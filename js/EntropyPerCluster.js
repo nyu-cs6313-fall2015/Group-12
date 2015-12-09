@@ -54,7 +54,7 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
             .attr("x", function(d,i){return x(i)})
             .attr("y", function(d,i){return y(d)})
             .attr("width", binSize-xMargin)
-            .attr("height", function(d,i){return mylimits.y+mylimits.height - y(d)})
+            .attr("height", function(d,i){return Math.max(mylimits.y+mylimits.height - y(d),0)})
             .attr("class","histRect")
             .on("mouseover", function (d,i) {
                 _this.tooltip.show(_this.data[i].dimension);
