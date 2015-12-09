@@ -7,9 +7,6 @@ function TopEntropy(controller, data, svg, limits){
     this.group = this.svg.append("g").attr("class", "topEntropy");
     this.limits = limits;
     this.ymargin = 0.5;
-    this.xmargin = 0.5;
-
-
 }
 
 TopEntropy.prototype.draw = function(averageEntropies){
@@ -17,7 +14,7 @@ TopEntropy.prototype.draw = function(averageEntropies){
 
     this.x = d3.scale.ordinal()
         .domain(d3.range(averageEntropies.length))
-        .rangeBands([this.limits.x + this.xmargin, this.limits.x + this.limits.width - this.xmargin], 0.1, 0.1);
+        .rangeRoundBands([this.limits.x, this.limits.x + this.limits.width], 0.1, 0.1);
 
     this.y = d3.scale.linear()
         .domain([0,1])

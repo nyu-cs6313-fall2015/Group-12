@@ -7,13 +7,7 @@ function DataViews (controller, data, svg, limits, scaleY){
     this.controller = controller;
     this.limits = limits;
     this.svg = svg;
-    this.scales = {};
     this.colors = undefined;
-
-    this.scales.x = d3.scale.ordinal()
-        .domain(data.map(function(d) { return d.dimension; }))
-        .rangeRoundBands([this.limits.x, this.limits.x + this.limits.width], .1);
-    this.scales.y = scaleY;
 
     this.dimensionsScales = this.data.map(buildScale); // change for object dimension:scale ??
     this.svg = this.svg.append("g").attr("class","data_views");
@@ -29,7 +23,6 @@ DataViews.prototype.createViews = function(children, clusterColors){
     self.dataSummaryViews = [];
 
     children.forEach(createDataSummary);
-
 
     function createDataSummary(child, i){
         var childData = [];
@@ -70,23 +63,7 @@ function buildScale(d){
     if (d.type == "quantitative") {
         return d3.scale.linear()
           .domain(d3.extent(d.values));
-    }
-
-    else if (d.type == "categorical") {
-        //var data_bins = d3.nest()
-        //    .key(function (d) { return d; })
-        //    .rollup(function (v) {  return v.length; })
-        //    .entries(d.values);
-        //
-        //data_bins.sort(function (a, b) {
-        //    return b.values - a.values;
-        //});
-        //
-        //return d3.scale.ordinal()
-        //  .domain(data_bins.map(function (d) { return d.key; }))
-        //  .range(colorbrewer.Set2[data_bins.length]);
-        //
-
+    }else if (d.type == "categorical") {
         return d3.scale.category10()
           .domain(d.levels)
          ;

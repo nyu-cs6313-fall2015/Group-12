@@ -8,7 +8,9 @@ function DataSummary(data, svg, limits, dataDimensionScales, boxColor, tooltip){
     this.scales.x = d3.scale.ordinal()
         .domain(data.map(function(d) { return d.dimension; }))
         .rangeRoundBands([this.limits.x, this.limits.x + this.limits.width],.1, .1);
+
     this.scales.y = dataDimensionScales;
+
 
     this.svg = this.svg.append("g").attr("class","data_summary_group");
     this.plots = [];
@@ -26,14 +28,11 @@ DataSummary.prototype.createPlots = function(){
         self.limits.y +.5*self.limits.height,
         self.limits.y +.75*self.limits.height];
 
-
-
     makeBox();
     self.limits.y = self.limits.y + 3;
     self.limits.height = self.limits.height- 6;
 
     self.data.forEach(plotDimension);
-
 
     function makeBox(){
         self.svg.append("rect")
