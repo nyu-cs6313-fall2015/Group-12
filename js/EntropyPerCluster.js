@@ -1,7 +1,7 @@
 function EntropyPerCluster(controller, data, svg, limits){
     this.description = 'EntropyPerCluster Class. Displayed on the right of DataViews';
-    this.tooltip = new Tooltip();
     this.controller = controller;
+    this.tooltip = controller.tooltip;
     this.data = data;
     this.svg = svg;
     this.limits = limits;

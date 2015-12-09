@@ -7,6 +7,7 @@ function Controller (){
     this.dataViews = undefined;
     this.entropyCalculator = undefined;
     this.entropyPerCluster = undefined;
+    this.tooltip = new Tooltip();
 }
 
 Controller.prototype.dataUpdated = function(data){

@@ -1,5 +1,5 @@
 
-function DataSummary(data, svg, limits, dataDimensionScales, boxColor){
+function DataSummary(data, svg, limits, dataDimensionScales, boxColor, tooltip){
     this.description = "Data Summary Object";
     this.data = data;
     this.limits = limits;
@@ -14,6 +14,7 @@ function DataSummary(data, svg, limits, dataDimensionScales, boxColor){
     this.plots = [];
 
     this.boxColor = boxColor;
+    this.tooltip = tooltip;
 
     this.createPlots();
     this.draw()
@@ -54,11 +55,11 @@ DataSummary.prototype.createPlots = function(){
         var plot_svg = self.svg.append("g").attr("transform", "translate(" +  xpos + ",0)");
 
         if (d['type'] == 'categorical'){
-            var plot = new StackedBar(d, plot_svg, limits, self.scales.y[i]);
+            var plot = new StackedBar(d, plot_svg, limits, self.scales.y[i], self.tooltip);
             self.plots.push(plot);
         }
         else if (d['type'] == 'quantitative'){
-            var plot = new Box(d, plot_svg, limits, self.scales.y[i]);
+            var plot = new Box(d, plot_svg, limits, self.scales.y[i], self.tooltip);
             self.plots.push(plot);
         }
     };

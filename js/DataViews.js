@@ -42,7 +42,9 @@ DataViews.prototype.createViews = function(children, clusterColors){
             height: self.limits.height/numClusters - 10
         };
 
-        var view = new DataSummary(childData, self.svg, limits, self.dimensionsScales, self.colors[i % self.colors.length]);
+        var view = new DataSummary(childData, self.svg, limits,
+          self.dimensionsScales, self.colors[i % self.colors.length],
+          self.controller.tooltip);
 
         self.dataSummaryViews.push(view);
 
@@ -82,7 +84,7 @@ function buildScale(d){
         //  .domain(data_bins.map(function (d) { return d.key; }))
         //  .range(colorbrewer.Set2[data_bins.length]);
         //
-        console.log(d.levels.length);
+
         return d3.scale.category10()
           .domain(d.levels)
          ;
