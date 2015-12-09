@@ -22,6 +22,11 @@ function DataSummary(data, svg, limits, dataDimensionScales, boxColor, tooltip){
 
 DataSummary.prototype.createPlots = function(){
     var self = this;
+    self.quartiles = [self.limits.y +.25*self.limits.height,
+        self.limits.y +.5*self.limits.height,
+        self.limits.y +.75*self.limits.height];
+
+    console.log(self.quartiles);
 
     makeBox();
     self.limits.y = self.limits.y + 3;
@@ -32,12 +37,22 @@ DataSummary.prototype.createPlots = function(){
 
     function makeBox(){
         self.svg.append("rect")
-            .attr("class","boxrect")
-            .attr("x", self.limits.x)
-            .attr("y", self.limits.y)
-            .attr("width", self.limits.width)
-            .attr("height", self.limits.height)
-            .style("stroke", self.boxColor);
+          .attr("class","boxrect")
+          .attr("x", self.limits.x)
+          .attr("y", self.limits.y)
+          .attr("width", self.limits.width)
+          .attr("height", self.limits.height)
+          .style("stroke", self.boxColor);
+
+        self.svg.selectAll("line")
+          .data(self.quartiles)
+          .enter().append("line")
+          .attr("class","boxline")
+          .attr("x1", self.limits.x)
+          .attr("x2", self.limits.x + self.limits.width)
+          .attr("y1", function(d){ console.log(d);  return d;})
+          .attr("y2", function(d){return d;})
+          .style("stroke", self.boxColor);
     }
 
     function plotDimension (d, i){

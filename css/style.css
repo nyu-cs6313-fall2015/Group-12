@@ -31,6 +31,10 @@ body, html, .container-fluid, .sidebar, .body {
     stroke-width: 2.5px;
 }
 
+.boxline {
+    stroke-dasharray: 5,5;
+}
+
 .box {
     fill: steelblue;
     stroke: #333;
