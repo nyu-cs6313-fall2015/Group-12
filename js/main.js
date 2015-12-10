@@ -1,7 +1,7 @@
 "use strict";
 (function() {
 
-    var filename = 'data/processed_small_cluster.json';
+    var filename = 'data/processed_large_cluster.json';
 
     
     var controller = new Controller();

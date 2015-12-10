@@ -56,18 +56,23 @@ clusterObj <- function(originalData, distanceFunction = daisy, removeFromCluster
 
  
 #clustering medical dataset small
-data = read.csv("OriginalMedical/processed_small.csv"); data[,"info__county"] = as.factor(data[,"info__county"])
+data = read.csv("OriginalMedical/processed_small.csv"); 
+data[,"info__county"] = as.factor(data[,"info__county"])
+toRemove = c(grep("county",colnames(data)),grep("state",colnames(data)))
+data = data[,-toRemove]
 o = clusterObj(data[,2:ncol(data)])
 sink('processed_small_cluster.json')
 cat(toJSON(o))
 sink()
 
-#clustering medical dataset
-# data = read.csv("OriginalMedical/processed_large.csv"); data[,"info__county"] = as.factor(data[,"info__county"])
-# o = clusterObj(data[,2:ncol(data)])
-# sink('processed_large_cluster.json')
-# cat(toJSON(o))
-# sink()
+# clustering medical dataset
+data = read.csv("OriginalMedical/processed_large.csv"); data[,"info__county"] = as.factor(data[,"info__county"])
+toRemove = c(grep("county",colnames(data)),grep("state",colnames(data)))
+data = data[sample(1:116353,5000),-toRemove]
+o = clusterObj(data[,2:ncol(data)])
+sink('processed_large_cluster.json')
+cat(toJSON(o))
+sink()
 
 
 #clustering iris dataset
