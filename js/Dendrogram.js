@@ -83,19 +83,19 @@ Dendrogram.prototype.draw = function(){
         var heightChild1 = (child1>0?height[child1-1]:XZERO);
         var heightChild2 = (child2>0?height[child2-1]:XZERO);
 
-        //if (i > drawAfterNIters){
-            var linexy = [
-                [heightChild1, centerChild1],
-                [height[i], centerChild1],
-                [height[i], centerChild2],
-                [heightChild2, centerChild2]
-            ];
 
-            this.group.append("path")
-                .attr("d", line(linexy))
-                .style("fill","none")
-                .style("stroke","black")
-                .attr("class","dendrogramConnector");
-       // }
+        var linexy = [
+            [heightChild1, centerChild1],
+            [height[i], centerChild1],
+            [height[i], centerChild2],
+            [heightChild2, centerChild2]
+        ];
+
+        this.group.append("path")
+            .attr("d", line(linexy))
+            .style("fill","none")
+            .style("stroke","black")
+            .attr("class","dendrogramConnector");
+
     }
 };

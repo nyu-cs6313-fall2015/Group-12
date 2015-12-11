@@ -19,10 +19,16 @@ TopEntropy.prototype.reorderDimensions = function(newOrder){
     transition.selectAll(".histRect")
         .delay(delay)
         .attr("x", function(d,i) { return (x0(i) +self.xposInc); });
+
+    var transitionText = this.group.transition().duration(750);
+    transitionText.selectAll(".histLabel")
+        .delay(delay)
+        .attr("transform", function(d,i){return "translate("+
+            (x0(i) + self.xposInc + x0.rangeBand()/2) + "," +
+            (self.limits.y + self.limits.height - 10) + ")"})
 };
 
 TopEntropy.prototype.draw = function(averageEntropies){
-    var self = this;
     this.averageEntropies = averageEntropies;
     this.x = d3.scale.ordinal()
         .domain(d3.range(averageEntropies.length))
@@ -75,6 +81,16 @@ TopEntropy.prototype.draw = function(averageEntropies){
         .on("mousemove", function(d){
             _this.tooltip.updatePosition();
         });
+
+    var labels = this.group.selectAll("histLabel").data(d3.range(_this.data.length));
+    labels.enter().append("g")
+        .attr("transform", function(d,i){return "translate("+
+            (_this.x(i) + _this.xposInc + _this.x.rangeBand()/2) + "," +
+            (_this.limits.y + _this.limits.height - 10) + ")"})
+        .attr("class","histLabel")
+        .append("text")
+        .text(function(d){return _this.data[d].dimension})
+        .attr("transform", "rotate(-90)");
 
     this.group.on("click", function(){
         _this.controller.reorderDimensions(d3.range(_this.averageEntropies.length).sort(function (a, b) {

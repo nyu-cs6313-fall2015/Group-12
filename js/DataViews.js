@@ -68,7 +68,7 @@ function buildScale(d){
         return d3.scale.linear()
           .domain(d3.extent(d.values));
     }else if (d.type == "categorical") {
-        return d3.scale.category10()
+        return d3.scale.category20()
           .domain(d.levels)
          ;
     }

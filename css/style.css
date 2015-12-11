@@ -37,6 +37,14 @@ body, html, .container-fluid, .sidebar, .body {
     stroke-width: 0px;
 }
 
+.histLabel text{
+    fill:white;
+    paint-order: stroke;
+    stroke: steelblue;
+    font: 12px sans-serif;
+    stroke-width:2px;
+}
+
 .boxline {
     stroke-dasharray: 5,5;
 }
