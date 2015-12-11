@@ -23,7 +23,8 @@ Tooltip.prototype.hide = function () {
 };
 
 Tooltip.prototype.updatePosition = function () {
-    event = event || window.event;
+    console.log(d3.event);
+    var event = event || window.event || d3.event;
     d3.select("#tooltip-global-" + this.randomId).style("top", (event.pageY - 37) + "px").style("left", (event.pageX - 100) + "px");
 };
 
