@@ -39,6 +39,20 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
             .style("stroke", colors[i % colors.length]);
 
 
+        var guidelines = [mylimits.y +.25*mylimits.height,
+            mylimits.y +.5*mylimits.height,
+            mylimits.y +.75*mylimits.height];
+
+        g_i.selectAll("line")
+          .data(guidelines)
+          .enter().append("line")
+          .attr("class","boxline")
+          .attr("x1", mylimits.x)
+          .attr("x2", mylimits.x + mylimits.width)
+          .attr("y1", function(d){return d;})
+          .attr("y2", function(d){return d;})
+          .style("stroke", colors[i % colors.length]);
+
         this.x = d3.scale.ordinal()
             .domain(d3.range(this.numDimensions))
             .rangeBands([mylimits.x + xMargin, mylimits.x+mylimits.width - xMargin],0.3);
@@ -46,6 +60,7 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
         this.y = d3.scale.linear()
             .domain([0,1])
             .range([mylimits.y + mylimits.height -yMargin, mylimits.y +yMargin]);
+
 
         var dataCluster = entropiesDecrease[i];
 

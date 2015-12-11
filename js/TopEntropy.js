@@ -7,17 +7,18 @@ function TopEntropy(controller, data, svg, limits){
     this.group = this.svg.append("g").attr("class", "topEntropy");
     this.limits = limits;
     this.ymargin = 0.5;
-
+    this.minWidth = 50;
 }
 
 TopEntropy.prototype.reorderDimensions = function(newOrder){
+    var self = this;
     var x0 = this.x.domain(newOrder);
 
     var transition = this.group.transition().duration(750);
     var delay = function(d, i) { return i * 50; };
     transition.selectAll(".histRect")
         .delay(delay)
-        .attr("x", function(d,i) { return x0(i); });
+        .attr("x", function(d,i) { return (x0(i) +self.xposInc); });
 };
 
 TopEntropy.prototype.draw = function(averageEntropies){
@@ -31,23 +32,36 @@ TopEntropy.prototype.draw = function(averageEntropies){
         .domain([0,1])
         .range([this.limits.y + this.limits.height - this.ymargin, this.limits.y + this.ymargin]);
 
-    var minWidth = 50;
-    var xposInc = 0;
+    this.xposInc = 0;
     var width = this.x.rangeBand() - 5;
 
-    if (this.x.rangeBand() > minWidth) {
-        xposInc += (this.x.rangeBand() - minWidth) / 2;
-        width = minWidth;
+    if (this.x.rangeBand() > this.minWidth) {
+        this.xposInc += (this.x.rangeBand() - this.minWidth) / 2;
+        width = this.minWidth;
     }
 
     this.group.remove();
     this.group = this.svg.append("g").attr("class", "topEntropy");
     this.group.append("rect").attr("x", this.limits.x).attr("y", this.limits.y).attr("width",this.limits.width).attr("height",this.limits.height).attr("class","invisibleBox");
 
+    var guidelines = [this.limits.y +.25*this.limits.height,
+        this.limits.y +.5*this.limits.height,
+        this.limits.y +.75*this.limits.height];
+
+    this.group.selectAll("line")
+      .data(guidelines)
+      .enter().append("line")
+      .attr("class","boxline")
+      .attr("x1", this.limits.x)
+      .attr("x2", this.limits.x + this.limits.width)
+      .attr("y1", function(d){return d;})
+      .attr("y2", function(d){return d;})
+      .style("stroke", '#bbb');
+
     var histogram = this.group.selectAll("histBin").data(averageEntropies);
     var _this = this;
     histogram.enter().append("rect")
-        .attr("x", function(d,i){return _this.x(i) + xposInc})
+        .attr("x", function(d,i){return _this.x(i) + _this.xposInc})
         .attr("y", function(d,i){return _this.y(d)})
         .attr("width", width)
         .attr("height", function(d,i){return Math.max(_this.limits.y+_this.limits.height - _this.y(d),0)})

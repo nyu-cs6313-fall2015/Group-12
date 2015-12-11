@@ -14,6 +14,7 @@ function Controller (){
 Controller.prototype.reorderDimensions = function(newOrder){
     this.entropyPerCluster.reorderDimensions(newOrder);
     this.topEntropy.reorderDimensions(newOrder);
+    this.dataViews.reorderDimensions(newOrder);
 };
 
 

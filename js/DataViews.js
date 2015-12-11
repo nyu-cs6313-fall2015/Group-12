@@ -59,6 +59,10 @@ DataViews.prototype.createViews = function(children, clusterColors){
 
 };
 
+DataViews.prototype.reorderDimensions = function(newOrder){
+    this.dataSummaryViews.forEach( function(d) { d.reorderDimensions(newOrder); } );
+};
+
 function buildScale(d){
     if (d.type == "quantitative") {
         return d3.scale.linear()
