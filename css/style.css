@@ -28,10 +28,14 @@ body, html, .container-fluid, .sidebar, .body {
 }
 
 .boxrect {
-    fill: none;
+    fill: white;
     stroke-width: 1px;
 }
 
+.invisibleBox{
+    fill:white;
+    stroke-width: 0px;
+}
 
 .boxline {
     stroke-dasharray: 5,5;

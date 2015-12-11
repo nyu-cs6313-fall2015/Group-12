@@ -7,11 +7,22 @@ function TopEntropy(controller, data, svg, limits){
     this.group = this.svg.append("g").attr("class", "topEntropy");
     this.limits = limits;
     this.ymargin = 0.5;
+
 }
+
+TopEntropy.prototype.reorderDimensions = function(newOrder){
+    var x0 = this.x.domain(newOrder);
+
+    var transition = this.group.transition().duration(750);
+    var delay = function(d, i) { return i * 50; };
+    transition.selectAll(".histRect")
+        .delay(delay)
+        .attr("x", function(d,i) { return x0(i); });
+};
 
 TopEntropy.prototype.draw = function(averageEntropies){
     var self = this;
-
+    this.averageEntropies = averageEntropies;
     this.x = d3.scale.ordinal()
         .domain(d3.range(averageEntropies.length))
         .rangeRoundBands([this.limits.x, this.limits.x + this.limits.width], 0.1, 0.1);
@@ -31,6 +42,7 @@ TopEntropy.prototype.draw = function(averageEntropies){
 
     this.group.remove();
     this.group = this.svg.append("g").attr("class", "topEntropy");
+    this.group.append("rect").attr("x", this.limits.x).attr("y", this.limits.y).attr("width",this.limits.width).attr("height",this.limits.height).attr("class","invisibleBox");
 
     var histogram = this.group.selectAll("histBin").data(averageEntropies);
     var _this = this;
@@ -50,11 +62,9 @@ TopEntropy.prototype.draw = function(averageEntropies){
             _this.tooltip.updatePosition();
         });
 
-    /*this.group.append("rect")
-        .attr("x", self.limits.x)
-        .attr("y", self.limits.y)
-        .attr("width", self.limits.width)
-        .attr("height", self.limits.height)
-        .attr("class", "boxrect")
-        .style("stroke","#cccccc");*/
+    this.group.on("click", function(){
+        _this.controller.reorderDimensions(d3.range(_this.averageEntropies.length).sort(function (a, b) {
+            return (_this.averageEntropies[b] - _this.averageEntropies[a])
+        }));
+    });
 };

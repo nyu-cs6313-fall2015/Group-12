@@ -11,6 +11,12 @@ function Controller (){
     this.tooltip = new Tooltip();
 }
 
+Controller.prototype.reorderDimensions = function(newOrder){
+    this.entropyPerCluster.reorderDimensions(newOrder);
+    this.topEntropy.reorderDimensions(newOrder);
+};
+
+
 Controller.prototype.dataUpdated = function(data){
     this.data = data;
 
@@ -156,6 +162,7 @@ Controller.prototype.entropyViews = function(clusters, colors){
     this.entropyPerCluster.draw(entropiesDecrease, colors);
     this.topEntropy.draw(averageEntropyDecrease);
 };
+
 
 Controller.prototype.clusterViews = function(children, colors) {
     this.dataViews.createViews(children, colors);
