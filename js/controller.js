@@ -18,8 +18,8 @@ Controller.prototype.dataUpdated = function(data){
         {   
             x: 10,
             y: .15 * this.clusterVis.height,
-            width:.25*this.clusterVis.width - 10 ,
-            height:.85 * this.clusterVis.height - 6
+            width: .25 * this.clusterVis.width - 10,
+            height: .85 * this.clusterVis.height - 6
         });
 
     this.entropyCalculator = new EntropyCalculator(this.data);
@@ -33,7 +33,7 @@ Controller.prototype.dataUpdated = function(data){
         }, this.dendrogram.scales.y);
 
     this.entropyPerCluster = new EntropyPerCluster(this, data.data, this.clusterVis.svg, {
-        x: .80*this.clusterVis.width + 10,
+        x: .80 * this.clusterVis.width + 10,
         y: .15 * this.clusterVis.height,
         width:.20 * this.clusterVis.width - 20,
         height:.85 * this.clusterVis.height

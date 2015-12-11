@@ -20,6 +20,7 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
     var yMargin = 3;
 
     for (var i = 0; i < numClusters; i++){
+        var g_i = this.group.append("g").attr("class", "EntropyClusterI")
 
         var mylimits = {
             x: this.limits.x,
@@ -40,7 +41,7 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
 
         var dataCluster = entropiesDecrease[i];
 
-        var histogram = this.group.selectAll("histBin").data(dataCluster);
+        var histogram = g_i.selectAll("histRect").data(dataCluster);
         var _this = this;
         histogram.enter().append("rect")
             .attr("x", function(d,i){return x(i)})
@@ -58,14 +59,24 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
                 _this.tooltip.updatePosition();
             });
 
+        var x0 = x.domain(d3.range(numDimensions).sort(function(a,b){return(entropiesDecrease[i][b] - entropiesDecrease[i][a])}));
 
-        this.group.append("rect")
+        var transition = g_i.transition().duration(750),
+            delay = function(d, i) { return i * 50; };
+
+        transition.selectAll(".histRect")
+            .delay(delay)
+            .attr("x", function(d,i) { return x0(i); });
+
+        g_i.append("rect")
             .attr("x", mylimits.x)
             .attr("y", mylimits.y)
             .attr("width", mylimits.width)
             .attr("height", mylimits.height)
             .attr("class", "boxrect")
             .style("stroke", colors[i % colors.length]);
+
+
     }
 
 };

@@ -50,11 +50,11 @@ TopEntropy.prototype.draw = function(averageEntropies){
             _this.tooltip.updatePosition();
         });
 
-    this.group.append("rect")
+    /*this.group.append("rect")
         .attr("x", self.limits.x)
         .attr("y", self.limits.y)
         .attr("width", self.limits.width)
         .attr("height", self.limits.height)
         .attr("class", "boxrect")
-        .style("stroke","#cccccc");
+        .style("stroke","#cccccc");*/
 };

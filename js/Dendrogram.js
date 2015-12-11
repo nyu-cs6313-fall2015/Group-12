@@ -15,7 +15,7 @@ function Dendrogram(controller, data, svg, limits, initialHeight){
 
     if (initialHeight === undefined) {
         var range = d3.extent(data.hclust.height);
-        initialHeight = range[0] + (range[0] + range[1]) *0.75;
+        initialHeight = range[0] + (range[0] + range[1]) *0.85;
     }
 
     this.scales.x = d3.scale.linear()
