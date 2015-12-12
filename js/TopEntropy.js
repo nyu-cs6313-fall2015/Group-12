@@ -24,8 +24,8 @@ TopEntropy.prototype.reorderDimensions = function(newOrder){
     transitionText.selectAll(".histLabel")
         .delay(delay)
         .attr("transform", function(d,i){return "translate("+
-            (x0(i) + self.xposInc + x0.rangeBand()/2) + "," +
-            (self.limits.y + self.limits.height - 10) + ")"})
+            (x0(i) + self.xposInc + self.width/2) + "," +
+            (self.limits.y + self.limits.height - 5) + ")"})
 };
 
 TopEntropy.prototype.draw = function(averageEntropies){
@@ -39,11 +39,11 @@ TopEntropy.prototype.draw = function(averageEntropies){
         .range([this.limits.y + this.limits.height - this.ymargin, this.limits.y + this.ymargin]);
 
     this.xposInc = 0;
-    var width = this.x.rangeBand() - 5;
+    this.width = this.x.rangeBand() - 5;
 
     if (this.x.rangeBand() > this.minWidth) {
         this.xposInc += (this.x.rangeBand() - this.minWidth) / 2;
-        width = this.minWidth;
+        this.width = this.minWidth;
     }
 
     this.group.remove();
@@ -69,24 +69,15 @@ TopEntropy.prototype.draw = function(averageEntropies){
     histogram.enter().append("rect")
         .attr("x", function(d,i){return _this.x(i) + _this.xposInc})
         .attr("y", function(d,i){return _this.y(d)})
-        .attr("width", width)
+        .attr("width", _this.width)
         .attr("height", function(d,i){return Math.max(_this.limits.y+_this.limits.height - _this.y(d),0)})
-        .attr("class","histRect")
-        .on("mouseover", function (d,i) {
-            _this.tooltip.show(_this.data[i].dimension);
-        })
-        .on("mouseout", function (d) {
-            _this.tooltip.hide();
-        })
-        .on("mousemove", function(d){
-            _this.tooltip.updatePosition();
-        });
+        .attr("class","histRect");
 
     var labels = this.group.selectAll("histLabel").data(d3.range(_this.data.length));
     labels.enter().append("g")
         .attr("transform", function(d,i){return "translate("+
-            (_this.x(i) + _this.xposInc + _this.x.rangeBand()/2) + "," +
-            (_this.limits.y + _this.limits.height - 10) + ")"})
+            (_this.x(i) + _this.xposInc + _this.width/2) + "," +
+            (_this.limits.y + _this.limits.height - 5) + ")"})
         .attr("class","histLabel")
         .append("text")
         .text(function(d){return _this.data[d].dimension})

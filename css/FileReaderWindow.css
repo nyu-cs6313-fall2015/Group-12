@@ -1,0 +1,43 @@
+.outerBorder {
+    /*center div on screen*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    /*color outer border*/
+    background-color:steelblue;
+    border-radius: 25px;
+    padding: 20px;
+    margin-left: -415px;
+    margin-top: -120px;
+    width: 830px;
+    height: 270px;
+    box-shadow: 6px 6px 10px #CCCCCC;
+    text-align: center;
+}
+
+
+
+
+
+/*Button*/
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
