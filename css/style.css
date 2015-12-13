@@ -6,6 +6,11 @@ body, html, .container-fluid, .sidebar, .body {
     cursor: default;
 }
 
+.dendrogramConnector{
+    fill:none;
+    stroke: #BBBBBB;
+}
+
 .container-fluid{
     padding: 0;
 }
@@ -53,7 +58,7 @@ body, html, .container-fluid, .sidebar, .body {
 .box {
     fill: steelblue;
     stroke: #333;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
 }
 
 .rect,
@@ -61,11 +66,11 @@ body, html, .container-fluid, .sidebar, .body {
 .median {
     fill: #fff;
     stroke: #333;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
 }
 .center {
     stroke: #333;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
     stroke-dasharray: 3,3;
 }
 
@@ -76,8 +81,8 @@ body, html, .container-fluid, .sidebar, .body {
 
 .histRect {
     fill: steelblue;
-    stroke: none;
-    stroke-width: 1.5px;
+    stroke: #333;
+    stroke-width: 1px;
 }
 
 .tooltip {

@@ -81,7 +81,7 @@ TopEntropy.prototype.draw = function(averageEntropies){
         .attr("class","histLabel")
         .append("text")
         .text(function(d){return _this.data[d].dimension})
-        .attr("transform", "rotate(-90)");
+        .attr("transform", "rotate(-45)");
 
     this.group.on("click", function(){
         _this.controller.reorderDimensions(d3.range(_this.averageEntropies.length).sort(function (a, b) {

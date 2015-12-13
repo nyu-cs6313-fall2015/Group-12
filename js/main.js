@@ -7,20 +7,8 @@ function makeLayout(){
     var containerFluid = body.append("div").attr("class", "container-fluid");
     var navbarDefault = containerFluid.append("div").attr("class", "navbar navbar-default");
     var navbarHeader = navbarDefault.append("div").attr("class", "navbar-header");
-    var navbarBrand = navbarHeader.append("a").attr("class", "navbar-brand").attr("href", "#").append("text").text("ClusterVis").on('click',function(){window.location.reload()});
-    var mainBody = containerFluid.append("div").attr("class","body").attr("id", "main")
-
-/*
-<div class="container-fluid">
-    <div class="navbar navbar-default">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Clustering
-        </div>
-    </div>
-    <div class="body" id="main">
-    </div>
-</div>
-        */
+    navbarHeader.append("a").attr("class", "navbar-brand").attr("href", "#").append("text").text("ClusterVis").on('click',function(){window.location.reload()});
+    containerFluid.append("div").attr("class","body").attr("id", "main")
 }
 
 
@@ -37,7 +25,6 @@ function main(){
         var reader = new FileReader();
         reader.onload = function (e) {
             var JsonObj = JSON.parse(reader.result);
-            console.log(JsonObj);
             d3.selectAll(".outerBorder").remove();
             makeLayout();
             var controller = new Controller();
