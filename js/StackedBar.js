@@ -19,7 +19,7 @@ function StackedBar(d, svg, limits, colorScale, tooltip){
       .rollup(function(v) { return v.length; })
       .entries(self.data.values);
 
-    self.data_bins.sort(function(a, b) { return b.values - a.values; });
+    self.data_bins.sort(function(a, b) { return a.key.localeCompare(b.key); });
 
     self.color = colorScale;
 
