@@ -82,7 +82,7 @@ body, html, .container-fluid, .sidebar, .body {
 .histRect {
     fill: steelblue;
     stroke: #333;
-    stroke-width: 1px;
+    stroke-width: 0px;
 }
 
 .tooltip {

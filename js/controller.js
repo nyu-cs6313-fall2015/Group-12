@@ -26,24 +26,24 @@ Controller.prototype.dataUpdated = function(data){
     this.dendrogram = new Dendrogram(this, data, this.clusterVis.svg,
         {
             x: 10,
-            y: .15 * this.clusterVis.height,
+            y: 5,
             width: .25 * this.clusterVis.width -10,
-            height: .85 * this.clusterVis.height - 6
+            height:.15 * this.clusterVis.height -10
         });
 
     this.dataViews = new DataViews(this, data.data, this.clusterVis.svg,
         {
             x: .25*this.clusterVis.width + 10,
             y: .15 * this.clusterVis.height,
-            width:.55*this.clusterVis.width - 10,
+            width:.75*this.clusterVis.width - 20,
             height:.85 * this.clusterVis.height
         }, this.dendrogram.scales.y);
 
 
     this.entropyPerCluster = new EntropyPerCluster(this, data.data, this.clusterVis.svg, {
-        x: .80 * this.clusterVis.width + 10,
+        x: 10,
         y: .15 * this.clusterVis.height,
-        width:.20 * this.clusterVis.width - 20,
+        width:.25 * this.clusterVis.width -10,
         height:.85 * this.clusterVis.height
     });
 
@@ -51,9 +51,17 @@ Controller.prototype.dataUpdated = function(data){
         {
             x: .25*this.clusterVis.width + 10,
             y: 5,
-            width:.55*this.clusterVis.width - 10,
+            width: .75*this.clusterVis.width - 20,
             height:.15 * this.clusterVis.height -10
         });
+
+
+    /*this.dimensionList = new DimensionList(this, data, {
+        x: 10,
+        y: .15 * this.clusterVis.height+50, //dont ask why... :(
+        width: .25 * this.clusterVis.width -10,
+        height: .85 * this.clusterVis.height - 6
+    });*/
 
 
     /*this.simplifiedDendrogram = new SimplifiedDendrogram(this, data, this.clusterVis.svg,

@@ -64,7 +64,7 @@ TopEntropy.prototype.draw = function(averageEntropies){
       .attr("y2", function(d){return d;})
       .style("stroke", '#bbb');
 
-    var histogram = this.group.selectAll("histBin").data(averageEntropies);
+    var histogram = this.group.selectAll("histRect").data(averageEntropies);
     var _this = this;
     histogram.enter().append("rect")
         .attr("x", function(d,i){return _this.x(i) + _this.xposInc})

@@ -13,6 +13,7 @@ function DataViews (controller, data, svg, limits, scaleY){
     this.svg = this.svg.append("g").attr("class","data_views");
 }
 
+
 DataViews.prototype.createViews = function(children, clusterColors){
     var self = this;
     var numClusters = children.length;

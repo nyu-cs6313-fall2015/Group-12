@@ -15,7 +15,7 @@ function makeLayout(){
 function main(){
     var fileInput = document.getElementById('fileInput');
     var fileDisplayArea = document.getElementById('textBoxFileName');
-    var submitButton  =document.getElementById('submitbutton')
+    var submitButton  =document.getElementById('submitbutton');
     fileInput.addEventListener('change', function (e) {
         file = fileInput.files[0];
         fileDisplayArea.value = file.name;
