@@ -19,10 +19,16 @@ TopEntropy.prototype.reorderDimensions = function(newOrder){
     transition.selectAll(".histRect")
         .delay(delay)
         .attr("x", function(d,i) { return (x0(i) +self.xposInc); });
+
+    var transitionText = this.group.transition().duration(750);
+    transitionText.selectAll(".histLabel")
+        .delay(delay)
+        .attr("transform", function(d,i){return "translate("+
+            (x0(i) + self.xposInc + self.width/2) + "," +
+            (self.limits.y + self.limits.height - 5) + ")"})
 };
 
 TopEntropy.prototype.draw = function(averageEntropies){
-    var self = this;
     this.averageEntropies = averageEntropies;
     this.x = d3.scale.ordinal()
         .domain(d3.range(averageEntropies.length))
@@ -33,11 +39,11 @@ TopEntropy.prototype.draw = function(averageEntropies){
         .range([this.limits.y + this.limits.height - this.ymargin, this.limits.y + this.ymargin]);
 
     this.xposInc = 0;
-    var width = this.x.rangeBand() - 5;
+    this.width = this.x.rangeBand() - 5;
 
     if (this.x.rangeBand() > this.minWidth) {
         this.xposInc += (this.x.rangeBand() - this.minWidth) / 2;
-        width = this.minWidth;
+        this.width = this.minWidth;
     }
 
     this.group.remove();
@@ -58,23 +64,24 @@ TopEntropy.prototype.draw = function(averageEntropies){
       .attr("y2", function(d){return d;})
       .style("stroke", '#bbb');
 
-    var histogram = this.group.selectAll("histBin").data(averageEntropies);
+    var histogram = this.group.selectAll("histRect").data(averageEntropies);
     var _this = this;
     histogram.enter().append("rect")
         .attr("x", function(d,i){return _this.x(i) + _this.xposInc})
         .attr("y", function(d,i){return _this.y(d)})
-        .attr("width", width)
+        .attr("width", _this.width)
         .attr("height", function(d,i){return Math.max(_this.limits.y+_this.limits.height - _this.y(d),0)})
-        .attr("class","histRect")
-        .on("mouseover", function (d,i) {
-            _this.tooltip.show(_this.data[i].dimension);
-        })
-        .on("mouseout", function (d) {
-            _this.tooltip.hide();
-        })
-        .on("mousemove", function(d){
-            _this.tooltip.updatePosition();
-        });
+        .attr("class","histRect");
+
+    var labels = this.group.selectAll("histLabel").data(d3.range(_this.data.length));
+    labels.enter().append("g")
+        .attr("transform", function(d,i){return "translate("+
+            (_this.x(i) + _this.xposInc + _this.width/2) + "," +
+            (_this.limits.y + _this.limits.height - 5) + ")"})
+        .attr("class","histLabel")
+        .append("text")
+        .text(function(d){return _this.data[d].dimension})
+        .attr("transform", "rotate(-45)");
 
     this.group.on("click", function(){
         _this.controller.reorderDimensions(d3.range(_this.averageEntropies.length).sort(function (a, b) {

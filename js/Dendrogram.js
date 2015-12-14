@@ -6,6 +6,7 @@ function Dendrogram(controller, data, svg, limits, initialHeight){
     this.limits = limits;
     this.svg = svg;
     this.scales = {};
+    this.fathers = [];
     this.group = this.svg.append("g")
         .attr("class","dendrogram_group");
 
@@ -42,7 +43,7 @@ Dendrogram.prototype.drawClusters = function(clusterBoxes){
             .attr("width", this.scales.x.range()[0] - this.scales.x(clusterBoxes[i].height))
             .attr("height", this.scales.y(clusterBoxes[i].y1) - this.scales.y(clusterBoxes[i].y0) -1)//1 px margin
             .style("fill", clusterBoxes[i].color)
-            .style("opacity", "0.4");
+            .style("opacity", "0.3");
     }
 };
 
@@ -79,23 +80,23 @@ Dendrogram.prototype.draw = function(){
         var centerChild1 = this.centers[nElem + child1];
         var centerChild2 = this.centers[nElem + child2];
         this.centers[i+1+nElem] = (centerChild1 + centerChild2)/2;
+        this.fathers[child1] = i + 1;
+        this.fathers[child2] = i + 1;
 
         var heightChild1 = (child1>0?height[child1-1]:XZERO);
         var heightChild2 = (child2>0?height[child2-1]:XZERO);
 
-        //if (i > drawAfterNIters){
-            var linexy = [
-                [heightChild1, centerChild1],
-                [height[i], centerChild1],
-                [height[i], centerChild2],
-                [heightChild2, centerChild2]
-            ];
 
-            this.group.append("path")
-                .attr("d", line(linexy))
-                .style("fill","none")
-                .style("stroke","black")
-                .attr("class","dendrogramConnector");
-       // }
+        var linexy = [
+            [heightChild1, centerChild1],
+            [height[i], centerChild1],
+            [height[i], centerChild2],
+            [heightChild2, centerChild2]
+        ];
+
+        this.group.append("path")
+            .attr("d", line(linexy))
+            .attr("class","dendrogramConnector");
+
     }
 };

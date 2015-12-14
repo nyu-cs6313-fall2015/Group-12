@@ -3,6 +3,12 @@ body, html, .container-fluid, .sidebar, .body {
     min-height: 100%;
     margin:0;
     overflow: hidden;
+    cursor: default;
+}
+
+.dendrogramConnector{
+    fill:none;
+    stroke: #BBBBBB;
 }
 
 .container-fluid{
@@ -37,6 +43,14 @@ body, html, .container-fluid, .sidebar, .body {
     stroke-width: 0px;
 }
 
+.histLabel text{
+    fill:white;
+    paint-order: stroke;
+    stroke: steelblue;
+    font: 12px sans-serif;
+    stroke-width:2px;
+}
+
 .boxline {
     stroke-dasharray: 5,5;
 }
@@ -44,7 +58,7 @@ body, html, .container-fluid, .sidebar, .body {
 .box {
     fill: steelblue;
     stroke: #333;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
 }
 
 .rect,
@@ -52,11 +66,11 @@ body, html, .container-fluid, .sidebar, .body {
 .median {
     fill: #fff;
     stroke: #333;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
 }
 .center {
     stroke: #333;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
     stroke-dasharray: 3,3;
 }
 
@@ -67,8 +81,8 @@ body, html, .container-fluid, .sidebar, .body {
 
 .histRect {
     fill: steelblue;
-    stroke: none;
-    stroke-width: 1.5px;
+    stroke: #333;
+    stroke-width: 0px;
 }
 
 .tooltip {

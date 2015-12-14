@@ -19,7 +19,7 @@ function StackedBar(d, svg, limits, colorScale, tooltip){
       .rollup(function(v) { return v.length; })
       .entries(self.data.values);
 
-    self.data_bins.sort(function(a, b) { return b.values - a.values; });
+    self.data_bins.sort(function(a, b) { return a.key.localeCompare(b.key); });
 
     self.color = colorScale;
 
@@ -43,6 +43,8 @@ StackedBar.prototype.draw = function(){
       .attr("y", function(d) { return self.y(d.y1); })
       .attr("height", function(d) { return self.y(d.y0) - self.y(d.y1); })
       .style("fill", function(d){ return self.color(d.key)})
+      .style("stroke","#333")
+      .style("stroke-width","1px")
       .on("mouseover", function (d,i) {
           self.tooltip.show(d.dimension + ":  " + d.key);
       })

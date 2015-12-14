@@ -5,7 +5,6 @@ function Tooltip() {
 
 Tooltip.prototype.init = function () {
     d3.select("body").append("div").attr("class", "tooltip top fade").attr("id", "tooltip-global-" + this.randomId);
-    //d3.select(".tooltip").append("div").attr("class","tooltip-arrow");
     d3.select(".tooltip").append("div").attr("class", "tooltip-inner").attr("id", "tooltip-" + this.randomId);
     d3.select("#tooltip-global-" + this.randomId).style("top", "0px").style("left", "0px");
 };
@@ -23,7 +22,6 @@ Tooltip.prototype.hide = function () {
 };
 
 Tooltip.prototype.updatePosition = function () {
-    console.log(d3.event);
     var event = event || window.event || d3.event;
     d3.select("#tooltip-global-" + this.randomId).style("top", (event.pageY - 37) + "px").style("left", (event.pageX - 100) + "px");
 };

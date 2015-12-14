@@ -3,24 +3,37 @@
 <head>
 	<meta charset="UTF-8">
 
-	<title>Clustering Vis</title>
+	<title>ClusterVis</title>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+	<link rel="stylesheet" href="css/FileReaderWindow.css"> <!-- custom styles -->
 
 </head>
-<body>
-	<div class="container-fluid">
-	    <div class="navbar navbar-default">
-	    <div class="navbar-header">
-			<a class="navbar-brand" href="#">Clustering</a>
-		</div>
-	    </div>
-	    <div class="body" id="main">
-	    </div>
-	</div>
+<body onload="main();">
+<!--
+	 -->
   	<!-- JS -->
+
+
+    <div class="outerBorder">
+
+		<image src="images/clustervis.png"  height="150px" vspace="10px"></image>
+
+
+        <input type="text" class="form-control" placeholder="Select a hierarchical cluster file" id="textBoxFileName" readonly="readonly"/>
+
+        <div class="upload btn">
+            <span class="btn btn-default btn-file">
+                Select File <input type="file" id="fileInput">
+            </span>
+        </div>
+
+        <button type="button" class="btn btn-default" id="submitbutton">Submit</button>
+
+    </div>
+
 	<script src="libs/d3/colorbrewer.js"></script>
 	<script src="libs/d3/d3.min.js"></script>
   	
@@ -37,6 +50,8 @@
 	<script src="js/EntropyPerCluster.js"></script>
 	<script src="js/Tooltip.js"></script>
 	<script src="js/TopEntropy.js"></script>
+
+	<script src="js/DimensionList.js"></script>
 	<script src="js/main.js"></script>
 
 </body>

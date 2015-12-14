@@ -13,6 +13,7 @@ function DataViews (controller, data, svg, limits, scaleY){
     this.svg = this.svg.append("g").attr("class","data_views");
 }
 
+
 DataViews.prototype.createViews = function(children, clusterColors){
     var self = this;
     var numClusters = children.length;
@@ -68,7 +69,7 @@ function buildScale(d){
         return d3.scale.linear()
           .domain(d3.extent(d.values));
     }else if (d.type == "categorical") {
-        return d3.scale.category10()
+        return d3.scale.category20()
           .domain(d.levels)
          ;
     }
