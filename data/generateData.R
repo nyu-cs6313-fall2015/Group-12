@@ -74,6 +74,15 @@ sink('processed_large_cluster.json')
 cat(toJSON(o))
 sink()
 
+# clustering food dataset
+data = read.csv("OriginalUSDA/usda-grp-nonames.csv");
+data[,'Choline_Tot'] = as.numeric(data[,'Choline_Tot'])
+data[,'Vit_K'] = as.numeric(data[,'Vit_K'])
+o = clusterObj(data)
+sink('usda.json')
+cat(toJSON(o))
+sink()
+
 
 #clustering iris dataset
 # o = clusterObj(iris, removeFromCluster = c(5))
