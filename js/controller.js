@@ -90,14 +90,14 @@ Controller.prototype.dfs = function(root){
     var toExplore = [root];
     var children = [];
     var current, curCenter;
-    var nElem = this.data.hclust.order.length;
+    var nClass = this.data.hclust.order.length;
     var minCenter = Infinity, maxCenter = -1;
     while (toExplore.length > 0){
         current = toExplore.pop();
         if (current < 0){
             //is a leaf
             children.push(-current - 1);
-            curCenter = centers[nElem + current];
+            curCenter = centers[nClass + current];
             if (curCenter < minCenter)
                 minCenter = curCenter;
             if (curCenter > maxCenter)
@@ -116,7 +116,7 @@ Controller.prototype.cutTree = function(){
     var merges = this.data.hclust.merge;
     var heights = this.data.hclust.height;
     var centers = this.dendrogram.centers;
-    var nElem = this.data.hclust.order.length;
+    var nClass = this.data.hclust.order.length;
 
     var roots = [];
     for (var iLine = 0; iLine < dLines.length; iLine++){
@@ -126,7 +126,7 @@ Controller.prototype.cutTree = function(){
             var d1 = {
                 x0:heights[iMerge], 
                 x1:(merges[iMerge][0] < 0? 0: heights[merges[iMerge][0]-1]), 
-                y: centers[merges[iMerge][0]+nElem]//iMerge+1+nElem]
+                y: centers[merges[iMerge][0]+nClass]//iMerge+1+nClass]
             };
             if (this.intercepts(cutline, d1)){
                 roots.push(merges[iMerge][0]);
@@ -136,7 +136,7 @@ Controller.prototype.cutTree = function(){
             var d2 = {
                 x0:heights[iMerge], 
                 x1:(merges[iMerge][1] < 0? 0: heights[merges[iMerge][1]-1]), 
-                y: centers[merges[iMerge][1]+nElem]
+                y: centers[merges[iMerge][1]+nClass]
             };
             if (this.intercepts(cutline, d2)){
                 roots.push(merges[iMerge][1]);
@@ -146,7 +146,7 @@ Controller.prototype.cutTree = function(){
 
     //Sorting the roots (clusters in ascending order)
     roots.sort(function(a,b){
-        return centers[nElem + a] - centers[nElem + b];
+        return centers[nClass + a] - centers[nClass + b];
     });
 
     var clusters = [];
@@ -172,8 +172,14 @@ Controller.prototype.entropyViews = function(clusters, colors){
     for (var clustId = 0; clustId < clusters.length; clustId++){
         entropiesDecrease[clustId] = [];
         for (var dimId = 0; dimId < this.data.data.length; dimId++){
+            var normalization = 1;
+            if (this.data.data[dimId].type == "quantitative"){
+                normalization = Math.log2(this.data.data[dimId].breaks.length -1);
+            }else{
+                normalization = Math.log2(this.data.data[dimId].levels.length);
+            }
             var entropy = this.entropyCalculator.calcEntropy(dimId, clusters[clustId]);
-            var decreaseEntropyPercentage = Math.max(0,1 - entropy / this.data.data[dimId].entropy);
+            var decreaseEntropyPercentage = Math.min(1,Math.max(0, this.data.data[dimId].entropy/normalization - entropy/normalization));
             entropiesDecrease[clustId].push(decreaseEntropyPercentage);
             averageEntropyDecrease[dimId] += decreaseEntropyPercentage/clusters.length;
         }
