@@ -1,14 +1,9 @@
 # Visualization of hierarchical clustering data sets
 
-###Authors
-
-Jorge Henrique Piazentin Ono
-
-Paola Llerena Valdivia
+Jorge Henrique Piazentin Ono and Paola Llerena Valdivia
 
 ![ClusterVis](https://raw.githubusercontent.com/nyu-cs6313-fall2015/Group-12/master/images/demoGithub.png)
 
-###Project description
 Clustering is the process of grouping similar objects together. It is a fundamental data analysis tool that has been used in many applications. However, understanding the result of a clustering algorithm is a challenging task and data analysts face this problem daily.
 
 The goal of this project was to develop a visualization technique that enabled users  to understand the resulting clusters and their semantics. We focused on the analysis of hierarchical clustering, as it can be easily generalised to deal with categorical data. 
