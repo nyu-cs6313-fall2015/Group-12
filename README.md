@@ -10,7 +10,7 @@ A video demo can be found [here](https://vimeo.com/149582643).
 
 ###Project Summary:
 
-![ClusterVis](master/images/demoGithub.png?raw=true)
+![ClusterVis](https://raw.githubusercontent.com/nyu-cs6313-fall2015/Group-12/master/images/demoGithub.png)
 
 
 Jorge Henrique Piazentin Ono
