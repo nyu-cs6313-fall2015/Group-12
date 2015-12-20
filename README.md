@@ -8,7 +8,7 @@ Clustering is the process of grouping similar objects together. It is a fundamen
 
 The goal of this project was to develop a visualization technique that enabled users  to understand the resulting clusters and their semantics. We focused on the analysis of hierarchical clustering, as it can be easily generalised to deal with categorical data. 
 
-As the final project of CS6313 Information Visualization, we  have developed ClusterVis, a tool that combines traditional graphs with information theory. Our methodology displays an overview of the data set and enables the exploratory analysis of each cluster.
+As the final project of CS6313 Information Visualization, we  have developed ClusterVis, a tool that displays an overview of the data set and enables the exploratory analysis of each cluster, based on an information theory metric. For more information, refer to the video and the report listed below.
 
 ###Links
 
