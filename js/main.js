@@ -26,6 +26,7 @@ function main(){
         reader.onload = function (e) {
             var JsonObj = JSON.parse(reader.result);
             d3.selectAll(".outerBorder").remove();
+            d3.selectAll(".footer_datasets").remove();
             makeLayout();
             var controller = new Controller();
             controller.dataUpdated(JsonObj);
