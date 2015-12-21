@@ -22,3 +22,4 @@ The final report can be found [here](https://github.com/nyu-cs6313-fall2015/Grou
 
 The data sets and the clustering script can be found [here](https://github.com/nyu-cs6313-fall2015/Group-12/tree/master/data).
 
+The original medical data can be found in the [CMS Website](https://www.cms.gov/Research-Statistics-Data-and-Systems/Downloadable-Public-Use-Files/SynPUFs/DE_Syn_PUF.html).
