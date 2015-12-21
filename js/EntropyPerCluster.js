@@ -38,8 +38,7 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
             .attr("fill", "white")
             .style("stroke", colors[i % colors.length]);
 
-
-        var guidelines = [mylimits.y +.25*mylimits.height,
+                var guidelines = [mylimits.y +.25*mylimits.height,
             mylimits.y +.5*mylimits.height,
             mylimits.y +.75*mylimits.height];
 
@@ -89,8 +88,8 @@ EntropyPerCluster.prototype.draw = function(entropiesDecrease, colors){
                 }));
             });
         })(i);
-
-
+        
+        g_i.append("text").attr("x", mylimits.x).attr("y", (mylimits.y+10)).text("Entropy Cluster " + (i+1)).style("stroke",colors[i % colors.length]);
     }
 
 };

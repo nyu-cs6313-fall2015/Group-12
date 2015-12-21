@@ -1,8 +1,10 @@
 # Visualization of hierarchical clustering data sets
 
-Jorge Henrique Piazentin Ono and Paola Llerena Valdivia
+Jorge Henrique Piazentin Ono (jpo286) and Paola Llerena Valdivia
 
-![ClusterVis](https://raw.githubusercontent.com/nyu-cs6313-fall2015/Group-12/master/images/demoGithub.png)
+jpo286 [at] nyu [dot] edu | paoyo1 [at] gmail [dot] com
+
+![ClusterVis](https://raw.githubusercontent.com/nyu-cs6313-fall2015/Group-12/master/images/DemoScreenshot.png)
 
 Clustering is the process of grouping similar objects together. It is a fundamental data analysis tool that has been used in many applications. However, understanding the result of a clustering algorithm is a challenging task and data analysts face this problem daily.
 
@@ -20,3 +22,4 @@ The final report can be found [here](https://github.com/nyu-cs6313-fall2015/Grou
 
 The data sets and the clustering script can be found [here](https://github.com/nyu-cs6313-fall2015/Group-12/tree/master/data).
 
+The original medical data can be found in the [CMS Website](https://www.cms.gov/Research-Statistics-Data-and-Systems/Downloadable-Public-Use-Files/SynPUFs/DE_Syn_PUF.html).
