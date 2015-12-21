@@ -1,6 +1,6 @@
 # Visualization of hierarchical clustering data sets
 
-Jorge Henrique Piazentin Ono and Paola Llerena Valdivia
+Jorge Henrique Piazentin Ono (jpo286) and Paola Llerena Valdivia
 
 ![ClusterVis](https://raw.githubusercontent.com/nyu-cs6313-fall2015/Group-12/master/images/demoGithub.png)
 
