@@ -2,6 +2,8 @@
 
 Jorge Henrique Piazentin Ono (jpo286) and Paola Llerena Valdivia
 
+jpo286 [at] nyu [dot] edu | paoyo1 [at] gmail [dot] com
+
 ![ClusterVis](https://raw.githubusercontent.com/nyu-cs6313-fall2015/Group-12/master/images/demoGithub.png)
 
 Clustering is the process of grouping similar objects together. It is a fundamental data analysis tool that has been used in many applications. However, understanding the result of a clustering algorithm is a challenging task and data analysts face this problem daily.
