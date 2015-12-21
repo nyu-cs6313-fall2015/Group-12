@@ -48,8 +48,8 @@ TopEntropy.prototype.draw = function(averageEntropies){
 
     this.group.remove();
     this.group = this.svg.append("g").attr("class", "topEntropy");
-    this.group.append("rect").attr("x", this.limits.x).attr("y", this.limits.y).attr("width",this.limits.width).attr("height",this.limits.height).attr("class","invisibleBox");
 
+    this.group.append("rect").attr("x", this.limits.x).attr("y", this.limits.y).attr("width",this.limits.width).attr("height",this.limits.height).attr("class","invisibleBox");
     var guidelines = [this.limits.y +.25*this.limits.height,
         this.limits.y +.5*this.limits.height,
         this.limits.y +.75*this.limits.height];
@@ -82,6 +82,9 @@ TopEntropy.prototype.draw = function(averageEntropies){
         .append("text")
         .text(function(d){return _this.data[d].dimension})
         .attr("transform", "rotate(-45)");
+
+    this.group.append("text").attr("x",this.limits.x).attr("y",this.limits.y+20).text("Average Entropy").attr("class","borderText");
+
 
     this.group.on("click", function(){
         _this.controller.reorderDimensions(d3.range(_this.averageEntropies.length).sort(function (a, b) {

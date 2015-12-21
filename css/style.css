@@ -43,7 +43,23 @@ body, html, .container-fluid, .sidebar, .body {
     stroke-width: 0px;
 }
 
+.borderText{
+    fill:white;
+    paint-order: stroke;
+    stroke: steelblue;
+    font: 12px sans-serif;
+    stroke-width:2px;
+}
+
 .histLabel text{
+    fill:white;
+    paint-order: stroke;
+    stroke: steelblue;
+    font: 12px sans-serif;
+    stroke-width:2px;
+}
+
+.EntropyClusterI text{
     fill:white;
     paint-order: stroke;
     stroke: steelblue;
