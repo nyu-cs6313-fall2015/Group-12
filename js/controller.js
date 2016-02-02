@@ -1,6 +1,7 @@
 "use strict";
 
 function Controller (){
+
     this.description = "Class Controller";
     this.clusterVis = new ClusterVis();
     this.dendrogram = undefined;
@@ -9,6 +10,7 @@ function Controller (){
     this.entropyPerCluster = undefined;
     this.topEntropy = undefined;
     this.tooltip = new Tooltip();
+    this.plot = getSelected("plotOption");
 }
 
 Controller.prototype.reorderDimensions = function(newOrder){
@@ -17,6 +19,10 @@ Controller.prototype.reorderDimensions = function(newOrder){
     this.dataViews.reorderDimensions(newOrder);
 };
 
+Controller.prototype.plotOptionUpdated = function() {
+    this.plot = getSelected("plotOption");
+    this.dataViews.updatePlot(this.plot);
+}
 
 Controller.prototype.dataUpdated = function(data){
     this.data = data;
@@ -37,7 +43,8 @@ Controller.prototype.dataUpdated = function(data){
             y: .15 * this.clusterVis.height,
             width:.75*this.clusterVis.width - 20,
             height:.85 * this.clusterVis.height
-        }, this.dendrogram.scales.y);
+        }, this.dendrogram.scales.y,
+        this.plot);
 
 
     this.entropyPerCluster = new EntropyPerCluster(this, data.data, this.clusterVis.svg, {
@@ -186,3 +193,8 @@ Controller.prototype.entropyViews = function(clusters, colors){
 Controller.prototype.clusterViews = function(children, colors) {
     this.dataViews.createViews(children, colors);
 };
+
+var getSelected = function(field){
+    var e = document.getElementById(field);
+    return e.options[e.selectedIndex].text;
+}
