@@ -43,7 +43,7 @@ function Violin(d, svg, limits, scaleY, tooltip) {
 Violin.prototype.draw = function() {
 
   var self = this;
-  var interpolation='monotone';
+  var interpolation='basis';
   var violinColor = "#cccccc";
 
   var area = d3.svg.area()
