@@ -59,8 +59,10 @@ DataSummary.prototype.createPlots = function(){
             self.plots.push(plot);
         }
         else if (d['type'] == 'quantitative'){
-            var plot = new Box(d, plot_svg, limits, self.scales.y[i], self.tooltip);
-            self.plots.push(plot);
+            var violinPlot = new Violin(d, plot_svg, limits, self.scales.y[i], self.tooltip);
+            self.plots.push(violinPlot);
+            var boxPlot = new Box(d, plot_svg, limits, self.scales.y[i], self.tooltip);
+            self.plots.push(boxPlot);
         }
     };
 

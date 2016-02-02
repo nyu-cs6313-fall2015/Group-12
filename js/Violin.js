@@ -33,10 +33,9 @@ function Violin(d, svg, limits, scaleY, tooltip) {
     .bins(resolution)
     .frequency(0)
     (self.data);
-  console.log(self.layout);
 
   self.x = d3.scale.linear()
-    .range([self.limits.x + self.width/2, self.limits.x])
+    .range([self.width / 2, 0])
     .domain([0, d3.max(self.layout, function(d) { return d.y; })]);
 
 }
@@ -44,7 +43,7 @@ function Violin(d, svg, limits, scaleY, tooltip) {
 Violin.prototype.draw = function() {
 
   var self = this;
-  var interpolation='step-before';
+  var interpolation='monotone';
   var violinColor = "#cccccc";
 
   var area = d3.svg.area()
@@ -64,7 +63,7 @@ Violin.prototype.draw = function() {
         return self.y(d.x+d.dx/2)
       return self.y(d.x);
     })
-    .y(function(d) { return d.y; });
+    .y(function(d) { return self.x(d.y); });
 
   var gPlus = self.svg.append("g")
   var gMinus = self.svg.append("g")
@@ -79,8 +78,8 @@ Violin.prototype.draw = function() {
     .datum(self.layout)
     .attr("class", "violin")
     .attr("d", line)
-    .style("stroke", violinColor);
-
+    .style("stroke", violinColor)
+    .style("fill", "none");
 
   gMinus.append("path")
     .datum(self.layout)
@@ -92,7 +91,8 @@ Violin.prototype.draw = function() {
     .datum(self.layout)
     .attr("class", "violin")
     .attr("d", line)
-    .style("stroke", violinColor);
+    .style("stroke", violinColor)
+    .style("fill", "none");
 
   var x= self.width;
 
