@@ -94,7 +94,7 @@ ParallelCoordinates.prototype.draw = function(){
     .data(self.dimensions)
     .enter().append("g")
     .attr("class", "dimension")
-    .attr("transform", function(d) {console.log(this); return "translate(" + self.scales.x(d) + ")"; })
+    .attr("transform", function(d) { return "translate(" + self.scales.x(d) + ")"; })
     .append("g")
     .attr("class", "axis")
     .each(function(d,i) {
@@ -111,10 +111,6 @@ ParallelCoordinates.prototype.path = function(d){
   var self = this;
   var line = d3.svg.line();
   var coordinates = d.map(function(p, i) {
-    //console.log(i);
-    //console.log(self.scales.y[self.order[i]].domain());
-    //console.log(p);
-    //console.log(self.scales.y[self.order[i]](p));
     return [self.position(p,i),  self.scales.y[self.order[i]](p)];//self.scales.y[self.order[i]](p)]; //  needs to be a function
   });
   return line(coordinates);
