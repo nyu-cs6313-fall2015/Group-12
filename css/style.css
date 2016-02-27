@@ -132,3 +132,9 @@ body, html, .container-fluid, .sidebar, .body {
     font-size: 8pt;
     /*cursor: move;*/
 }
+
+.brush .extent {
+    fill-opacity: .3;
+    stroke: #fff;
+    shape-rendering: crispEdges;
+}

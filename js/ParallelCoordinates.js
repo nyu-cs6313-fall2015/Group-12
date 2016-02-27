@@ -71,14 +71,14 @@ ParallelCoordinates.prototype.draw = function(){
   var axis = d3.svg.axis().orient("left");
 
   // Add grey background lines for context.
-  //background = self.svg.append("g")
-  //  .attr("class", "background")
-  //  .selectAll("path")
-  //.data(self.processed_data)
-  //  .enter().append("path")
-  //  .attr("d", function(d){ return self.path(d)})
+  self.background = self.svg.append("g")
+    .attr("class", "background")
+    .selectAll("path")
+    .data(self.processed_data)
+    .enter().append("path")
+    .attr("d", function(d){ return self.path(d)});
 
-  //// Add blue foreground lines for focus.
+  //// Add colored foreground lines for focus.
   self.foreground = self.svg.append("g")
     .attr("class", "foreground")
     .selectAll("path")
@@ -94,14 +94,49 @@ ParallelCoordinates.prototype.draw = function(){
     .data(self.dimensions)
     .enter().append("g")
     .attr("class", "dimension")
-    .attr("transform", function(d) { return "translate(" + self.scales.x(d) + ")"; })
-    .append("g")
+    .attr("transform", function(d) { return "translate(" + self.scales.x(d) + ")"; });
+
+  self.g.append("g")
     .attr("class", "axis")
     .each(function(d,i) {
       d3.select(this)
         .call(axis.scale(self.scales.y[self.order[i]])); // self.scales.y[this.order[i]] needs to be a function
     });
+  // Add and store a brush for each axis.
+  self.g.append("g")
+    .attr("class", "brush")
+    .each(function(d,i) {
+      d3.select(this)
+        .call(self.scales.y[self.order[i]].brush = d3.svg.brush()
+                                                    .y(self.scales.y[self.order[i]])
+                                                    .on("brushstart", self.brushstart)
+                                                    .on("brush", function(){return self.brush(self)}));
+    })
+    .selectAll("rect")
+    .attr("x", -8)
+    .attr("width", 16);
 };
+ParallelCoordinates.prototype.brushstart = function() {
+  d3.event.sourceEvent.stopPropagation();
+}
+// Handles a brush event, toggling the display of foreground lines.
+ParallelCoordinates.prototype.brush = function(self) {
+  var actives = d3.range(self.dimensions.length).filter(function(p) { return !self.scales.y[self.order[p]].brush.empty(); });
+  var extents = actives.map(function(p) {
+      return self.scales.y[p].brush.extent();
+  });
+
+  self.foreground.style("display", function(d) {
+    return actives.every(function(p, i) {
+      if (self.data[p].type == 'quantitative')
+         return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+      else {
+        console.log(d[p]);
+        return extents[i][0] <= self.scales.y[p](d[p]) && self.scales.y[p](d[p]) <= extents[i][1];
+      }
+    }) ? null : "none";
+  });
+}
 
 ParallelCoordinates.prototype.remove = function(){
   d3.select(".data_summary_group").remove();
@@ -127,12 +162,16 @@ ParallelCoordinates.prototype.reorderDimensions = function(newOrder){
 
   var transitionf = self.foreground.transition().duration(750);
   transitionf.attr("d", function(d){ return  self.path(d3.permute(d, self.order)); });
+  var transitionb = self.background.transition().duration(750);
+  transitionb.attr("d", function(d){ return  self.path(d3.permute(d, self.order)); });
+
   var transitiong =self.svg.transition().duration(750)
   transitiong.selectAll(".dimension")
     .delay(delay)
     .attr("transform", function(d, i) {
       return "translate(" + self.scales.x(d) + ")";
     });
+
 
   //transition.selectAll(".data_summary")
   //  .delay(delay)
