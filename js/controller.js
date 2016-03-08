@@ -1,7 +1,6 @@
 "use strict";
 
 function Controller (){
-
     this.description = "Class Controller";
     this.clusterVis = new ClusterVis();
     this.dendrogram = undefined;
@@ -29,38 +28,39 @@ Controller.prototype.dataUpdated = function(data){
 
     this.entropyCalculator = new EntropyCalculator(this.data);
 
-    this.dendrogram = new Dendrogram(this, data, this.clusterVis.svg,
+    this.dendrogram = new Dendrogram(this, data, this.clusterVis.svgFixed,
         {
             x: 10,
             y: 5,
             width: .25 * this.clusterVis.width -10,
-            height:.15 * this.clusterVis.height -10
+            height: this.clusterVis.svgFixedHeight-10
         });
 
-    this.dataViews = new DataViews(this, data.data, this.clusterVis.svg,
-        {
-            x: .25*this.clusterVis.width + 10,
-            y: .15 * this.clusterVis.height,
-            width:.75*this.clusterVis.width - 20,
-            height:.85 * this.clusterVis.height
-        }, this.dendrogram.scales.y,
-        this.plot);
-
-
-    this.entropyPerCluster = new EntropyPerCluster(this, data.data, this.clusterVis.svg, {
-        x: 10,
-        y: .15 * this.clusterVis.height,
-        width:.25 * this.clusterVis.width -10,
-        height:.85 * this.clusterVis.height
-    });
-
-    this.topEntropy = new TopEntropy(this, data.data, this.clusterVis.svg,
+    this.topEntropy = new TopEntropy(this, data.data, this.clusterVis.svgFixed,
         {
             x: .25*this.clusterVis.width + 10,
             y: 5,
             width: .75*this.clusterVis.width - 20,
-            height:.15 * this.clusterVis.height -10
+            height: this.clusterVis.svgFixedHeight-10
         });
+
+    this.dataViews = new DataViews(this, data.data, this.clusterVis.svgSummary,
+        {
+            x: .25*this.clusterVis.width + 10,
+            y: 0,
+            width:.75*this.clusterVis.width - 20,
+            height: this.clusterVis.svgSummaryHeight
+        }, this.dendrogram.scales.y,
+        this.plot);
+
+
+    this.entropyPerCluster = new EntropyPerCluster(this, data.data, this.clusterVis.svgSummary, {
+        x: 10,
+        y: 0,
+        width:.25 * this.clusterVis.width -10,
+        height: this.clusterVis.svgSummaryHeight
+    });
+
 
 
     /*this.dimensionList = new DimensionList(this, data, {
@@ -70,14 +70,6 @@ Controller.prototype.dataUpdated = function(data){
         height: .85 * this.clusterVis.height - 6
     });*/
 
-
-    /*this.simplifiedDendrogram = new SimplifiedDendrogram(this, data, this.clusterVis.svg,
-        {
-            x: 10,
-            y: .15 * this.clusterVis.height,
-            width: .25 * this.clusterVis.width ,
-            height: .85 * this.clusterVis.height - 6
-        });*/
 
     this.cutTree();
 };
@@ -167,6 +159,13 @@ Controller.prototype.cutTree = function(){
     }
 
     this.dendrogram.drawClusters(clusterBoxes);
+
+    //Resizing the svg element.
+    this.clusterVis.setSummaryHeight(this.clusterVis.DATASUMMARYHEIGHT * clusters.length);
+    this.dataViews.limits.height = this.clusterVis.svgSummaryHeight
+    this.entropyPerCluster.limits.height = this.clusterVis.svgSummaryHeight
+
+
     this.entropyViews(clusters, colors);
     this.clusterViews(clusters, colors);
 };

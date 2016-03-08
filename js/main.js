@@ -6,7 +6,7 @@ var navPlotOptions;
 function makeLayout(){
     var body = d3.select("body");
     var containerFluid = body.append("div").attr("class", "container-fluid");
-    var navbarDefault = containerFluid.append("div").attr("class", "navbar navbar-default");
+    var navbarDefault = containerFluid.append("div").attr("class", "navbar navbar-default navbar-fixed-top");
     var navbarHeader = navbarDefault.append("div").attr("class", "navbar-header");
     navbarHeader.append("a").attr("class", "navbar-brand").attr("href", "#").append("text").text("ClusterVis").on('click',function(){window.location.reload()});
     var  navPlotForm = navbarHeader.append("form").attr("class","navbar-form navbar-right");
@@ -37,7 +37,6 @@ function main(){
             var controller = new Controller();
             navPlotOptions.on("change", function(){ return controller.plotOptionUpdated() } );
             controller.dataUpdated(JsonObj);
-
         };
         reader.readAsText(file);
 
