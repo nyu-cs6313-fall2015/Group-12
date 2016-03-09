@@ -9,6 +9,7 @@ function ClusterVis(){
     this.svgSummaryHeight = .85 * this.height
     this.svgFixed = d3.select('#main')
         .append("svg")
+        .style("z-index","1000")
         .style("width", this.width)
         .style("height", this.svgFixedHeight)
         .style("top", "50px")
@@ -18,7 +19,6 @@ function ClusterVis(){
 
     this.svgSummary = d3.select('#main')
         .append("svg")
-        .style("z-index","-1")
         .style("position","relative")
         .style("top",this.svgFixedHeight)
         .style("width", this.width)
